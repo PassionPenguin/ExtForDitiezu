@@ -1,0 +1,11 @@
+{
+  "appName": {
+    "message": "Ditiezu 插件"
+  },
+  "appDesc": {
+    "message": "专为地铁族论坛设计的插件"
+  },
+  "notDitiezuPage": {
+    "message": "您现在访问的不是地铁族的网页"
+  }
+}
