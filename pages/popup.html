@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ExtForDitiezu</title>
+    <style>
+        .popup {
+            margin: 3px;
+            width: 320px;
+            height: 640px;
+        }
+
+        .brand img {
+            vertical-align: middle;
+            width: 32px;
+        }
+
+        .brand span {
+            vertical-align: middle;
+            font: 100 20px/1 Anodina;
+            margin-left: 6px;
+        }
+    </style>
+</head>
+<body>
+<div class="popup">
+    <div class="brand">
+        <img alt="logo" src="../images/icon256.png">
+        <span>Ditiezu<b>Helper</b></span>
+    </div>
+    <div class="content">
+
+    </div>
+    <div class="footer">
+
+    </div>
+</div>
+<script>
+    let content = document.querySelector(".content");
+    chrome.tabs.getSelected(null, (tab) => {
+        if (tab.url !== "ditiezu") content.innerHTML = ``;
+    })
+</script>
+</body>
+</html>
