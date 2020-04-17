@@ -20,7 +20,57 @@
             font: 100 20px/1 Anodina;
             margin-left: 6px;
         }
+
+        .notDitiezuPageAlert {
+            text-align: center;
+            margin: 20px 0;
+            font: 16px/1 Anodina, sans-serif;
+        }
+
+        .notDitiezuPageAlert img {
+            width: 100%;
+        }
+
+        .content {
+            width: calc(100% - 20px);
+            height: calc(100% - 132px);
+            margin: 16px 10px 0 10px;
+        }
+
+        .footer {
+            width: calc(100% - 20px);
+            height: 24px;
+            margin: 0 10px;
+        }
+
+        .userPreference {
+            padding-bottom: 10px;
+        }
+
+        .prefName {
+            font: 16px/1 Anodina, sans-serif;
+            margin: 10px 0;
+        }
+
+        .prefSelector {
+            padding: 5px 10px;
+            cursor: pointer;
+            border-bottom: 1px solid transparent;
+        }
+
+        .prefSelector:hover, .prefSelector:focus {
+            border-bottom-color: var(--theme);
+        }
+
+        .prefSelector.active:after {
+            content: "check";
+            float: right;
+            font: 16px/1 "Material Icons";
+            vertical-align: middle;
+            color: var(--green);
+        }
     </style>
+    <link href="../defaultStyle.css" rel="stylesheet">
 </head>
 <body>
 <div class="popup">
@@ -32,14 +82,9 @@
 
     </div>
     <div class="footer">
-
+        <img alt="copyright" src="../images/copyright.svg">
     </div>
 </div>
-<script>
-    let content = document.querySelector(".content");
-    chrome.tabs.getSelected(null, (tab) => {
-        if (tab.url !== "ditiezu") content.innerHTML = ``;
-    })
-</script>
+<script src="../scripts/popup.js"></script>
 </body>
 </html>

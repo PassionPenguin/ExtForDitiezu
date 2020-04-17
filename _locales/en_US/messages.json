@@ -7,5 +7,17 @@
   },
   "notDitiezuPage": {
     "message": "You're not visiting the page of the bbs."
+  },
+  "requestMode": {
+    "message": "Request Mode"
+  },
+  "mobileRequest": {
+    "message": "Request Mobile Layout"
+  },
+  "desktopRequest": {
+    "message": "Request Desktop Layout"
+  },
+  "overrideRequest": {
+    "message": "Override Requests"
   }
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 24.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
+<style type="text/css">
+	.st0{clip-path:url(#SVGID_2_);}
+	.st1{fill:#FFFFFF;}
+	.st2{fill:#D9DADB;}
+	.st3{fill:#8ECCEE;}
+	.st4{fill:none;stroke:#FFFFFF;stroke-miterlimit:10;}
+</style>
+<g>
+	<defs>
+		<path id="SVGID_1_" d="M222,185.6H34c-1.1,0-2-0.9-2-2V72.4c0-1.1,0.9-2,2-2h188c1.1,0,2,0.9,2,2v111.2
+			C224,184.7,223.1,185.6,222,185.6z"/>
+	</defs>
+	<clipPath id="SVGID_2_">
+		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+	</clipPath>
+	<g class="st0">
+		<rect x="32.01" y="70.4" class="st1" width="191.99" height="115.19"/>
+		<rect x="191.57" y="74.37" class="st2" width="27.02" height="5.58"/>
+		<rect x="37.4" y="74.15" class="st2" width="6.03" height="6.03"/>
+		<rect x="32" y="83.75" class="st3" width="191.99" height="59.96"/>
+		<rect x="133.9" y="149.29" class="st2" width="83.17" height="4.28"/>
+		<rect x="133.9" y="164.44" class="st2" width="83.17" height="4.28"/>
+		<rect x="133.9" y="172.31" class="st2" width="83.17" height="4.28"/>
+		<rect x="133.9" y="156.77" class="st2" width="83.17" height="4.28"/>
+		<rect x="133.9" y="149.29" class="st2" width="83.17" height="4.28"/>
+		<rect x="37.4" y="148.63" class="st2" width="88.76" height="30.29"/>
+	</g>
+	<use xlink:href="#SVGID_1_"  style="overflow:visible;fill:none;stroke:#666666;stroke-width:0.5;stroke-miterlimit:10;"/>
+</g>
+<circle class="st4" cx="128" cy="113.5" r="7.5"/>
+<g>
+	<path class="st1" d="M129.7,109.99c0.44,0.44,0.68,1.04,0.68,1.7c0,0.54-0.13,1-0.4,1.42c-0.22,0.35-0.5,0.6-0.74,0.84
+		c-0.44,0.41-0.67,0.64-0.67,1.1h-1.15c0-1,0.58-1.52,1.03-1.96c0.22-0.19,0.42-0.38,0.56-0.61c0.14-0.23,0.22-0.48,0.22-0.79
+		c0-0.72-0.52-1.24-1.24-1.24c-0.84,0-1.24,0.4-1.24,1.24h-1.15c0-0.73,0.22-1.33,0.64-1.75c0.42-0.42,1.02-0.64,1.75-0.64
+		C128.65,109.3,129.26,109.54,129.7,109.99z M128.7,117c0,0.38-0.31,0.7-0.7,0.7s-0.7-0.31-0.7-0.7s0.31-0.7,0.7-0.7
+		S128.7,116.62,128.7,117z"/>
+</g>
+</svg>

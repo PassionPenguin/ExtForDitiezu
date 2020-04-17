@@ -7,5 +7,17 @@
   },
   "notDitiezuPage": {
     "message": "您宜家訪問嘅唔係地鐵族嘅頁面"
+  },
+  "requestMode": {
+    "message": "請求模式"
+  },
+  "mobileRequest": {
+    "message": "請求手機介面"
+  },
+  "desktopRequest": {
+    "message": "請求電腦介面"
+  },
+  "overrideRequest": {
+    "message": "覆蓋請求"
   }
 }

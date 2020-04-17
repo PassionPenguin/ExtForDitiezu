@@ -7,5 +7,17 @@
   },
   "notDitiezuPage": {
     "message": "您现在访问的不是地铁族的网页"
+  },
+  "requestMode": {
+    "message": "请求模式"
+  },
+  "mobileRequest": {
+    "message": "请求手机界面"
+  },
+  "desktopRequest": {
+    "message": "请求电脑界面"
+  },
+  "overrideRequest": {
+    "message": "覆盖请求"
   }
 }
