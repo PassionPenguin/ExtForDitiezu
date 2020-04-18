@@ -1,23 +1,29 @@
 {
-  "appName": {
-    "message": "Ditiezu Ext"
-  },
-  "appDesc": {
-    "message": "Ext designed only for Ditiezu BBS"
-  },
-  "notDitiezuPage": {
-    "message": "You're not visiting the page of the bbs."
-  },
-  "requestMode": {
-    "message": "Request Mode"
-  },
-  "mobileRequest": {
-    "message": "Request Mobile Layout"
-  },
-  "desktopRequest": {
-    "message": "Request Desktop Layout"
-  },
-  "overrideRequest": {
-    "message": "Override Requests"
-  }
+    "appName": {
+        "message": "Ditiezu Ext"
+    },
+    "appDesc": {
+        "message": "Ext designed only for Ditiezu BBS"
+    },
+    "notDitiezuPage": {
+        "message": "You're not visiting the page of the bbs."
+    },
+    "requestMode": {
+        "message": "Request Mode"
+    },
+    "mobileRequest": {
+        "message": "Request Mobile Layout"
+    },
+    "desktopRequest": {
+        "message": "Request Desktop Layout"
+    },
+    "overrideRequest": {
+        "message": "Override Requests"
+    },
+    "Running": {
+        "message":"Running"
+    },
+    "downloadingResources":{
+        "message": "We're now Downloading Resources..."
+    }
 }

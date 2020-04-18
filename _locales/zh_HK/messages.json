@@ -19,5 +19,11 @@
   },
   "overrideRequest": {
     "message": "覆蓋請求"
+  },
+  "Running": {
+    "message":"運行中"
+  },
+  "downloadingResources":{
+    "message": "我們正在下載資源..."
   }
 }

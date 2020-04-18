@@ -5,7 +5,11 @@
     --theme: #00bcd4;
     --theme_l: #b2ebf2;
     --theme_d: #006064;
+    --exlight: #eee;
+    --sulight: #ddd;
     --light: #ccc;
+    --sudark: #222;
+    --exdark: #111;
     --dark: #333;
     --grey: #888;
     --white: #fff;
@@ -14,20 +18,20 @@
 
 @font-face {
     font-family: Anodina;
-    src: url("./font/Anodina-Regular.otf");
+    src: url(chrome-extension://__MSG_@@extension_id__/font/Anodina-Regular.otf);
 }
 
 @font-face {
     font-family: Anodina;
     font-weight: 600;
-    src: url("./font/Anodina-Bold.otf");
+    src: url(chrome-extension://__MSG_@@extension_id__/font/Anodina-Bold.otf);
 }
 
 @font-face {
     font-family: 'Material Icons';
     font-style: normal;
     font-weight: 400;
-    src: url("./font/MaterialIcons-Regular.woff2") format('woff2')
+    src: url(chrome-extension://__MSG_@@extension_id__/font/MaterialIcons-Regular.woff2) format('woff2')
 }
 
 .mi {
@@ -107,11 +111,39 @@ body {
     color: var(--white);
 }
 
+.typeSelector {
+    width: 768px;
+    padding: 6px 0;
+    margin: 24px auto 0 auto;
+}
+
+.typeSelector .choice {
+    display: inline-block;
+    min-width: 72px;
+    text-align: center;
+    padding: 6px 0;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    font: 13px/1 Anodina, sans-serif;
+}
+
+.typeSelector .choice.active, .typeSelector .choice:focus, .typeSelector .choice:hover {
+    border-bottom-color: var(--theme);
+}
+
 #toptb {
     display: none;
 }
 
-#hd > .wp:first-child{
+#hd > .wp:first-child {
+    display: none;
+}
+
+.pg_index {
+    overflow: hidden;
+}
+
+.pg_index > *:not([class^="pg-"]) {
     display: none;
 }
 
@@ -124,6 +156,7 @@ body {
     overflow: hidden;
     background: var(--white);
     box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+    z-index: 99999;
 }
 
 .pg-header img.brand {
@@ -197,6 +230,7 @@ body {
     background: var(--white);
     box-shadow: 0 2px 10px rgba(0, 0, 0, .2);
     border-radius: 6px;
+    z-index: 99999;
 }
 
 .pg-aboutMeBlank img {
@@ -228,4 +262,194 @@ body {
 
 .pg-aboutMeBlank ul {
     padding: 20px;
+}
+
+#pg-focus-topWrap, #pg-focus-otherWrap, .pg-feed {
+    width: calc(100% - 40px);
+    padding: 5px 20px !important;
+}
+
+#pg-focus-topWrap {
+    margin: 24px auto;
+    background: var(--white);
+    padding: 5px;
+}
+
+#pg-focus-topWrap h2 {
+    font-size: 16px;
+    text-align: center;
+}
+
+#pg-focus-topWrap p {
+    font-size: 12px;
+}
+
+#pg-focus-otherWrap {
+    margin-bottom: 10px;
+    font-size: 13px;
+    background: var(--white);
+    padding: 5px;
+}
+
+.pg-focus-otherItem {
+    margin: 6px 0;
+    white-space: nowrap;
+    width: calc(100% - 8px);
+    padding: 4px 4px;
+}
+
+.pg-focus-otherItem-category {
+    width: 60px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.pg-focus-otherItem-content {
+    width: calc(100% - 150px);
+    display: inline-block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+.pg-focus-otherItem-author {
+    float: right;
+    max-width: 70px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+}
+
+.pg-focus-otherItem .seperator {
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+#pg-ForumFeeds {
+    margin: 48px auto 72px auto;
+    overflow: hidden;
+}
+
+#pg-indexFeeds {
+    margin-bottom: 72px;
+}
+
+.pg-feed {
+    padding: 10px;
+    margin: 10px 0;
+    background: var(--white);
+}
+
+.pg-feed:hover, .pg-feed:focus, #pg-focus-topWrap:hover, #pg-focus-topWrap:focus, .pg-focus-otherItem:hover, .pg-focus-otherItem:focus {
+    background: var(--exlight);
+}
+
+#pg-focus-topWrap:hover, #pg-focus-topWrap:focus, .pg-focus-otherItem:hover, .pg-focus-otherItem:focus {
+    cursor: pointer;
+}
+
+.pg-feed-title {
+    margin: 5px 0 0 0;
+    font: 500 17px/1.5 Anodina, sans-serif;
+    cursor: pointer;
+}
+
+.pg-feed-metaInfo {
+    font: 600 13px/21px Anodina, sans-serif;
+    margin: 5px 0;
+    color: var(--grey);
+}
+
+.pg-feed-description {
+    max-height: 81px;
+    height: fit-content;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font: 15px/21px Anodina, sans-serif;
+    color: #333;
+    cursor: pointer;
+}
+
+.pg-feedContent {
+    display: inline-block;
+    width: calc(100% - 150px);
+    margin-right: 20px;
+    max-height: 100px;
+    overflow: hidden;
+    vertical-align: top;
+    cursor: pointer;
+}
+
+.pg-feedContent.no-image {
+    width: 100%;
+}
+
+.pg-feed-enclosure {
+    width: 120px;
+    display: inline-block;
+    height: 90px;
+    vertical-align: text-bottom;
+    background-size: 100%;
+    background-position: 50%;
+    margin-top: 10px
+}
+
+.pg-dashboard {
+    position: fixed;
+    top: 48px;
+    bottom: 0;
+    z-index: 10000;
+    background: var(--white);
+    width: 100%;
+    height: calc(100% - 48px);
+    overflow: scroll;
+}
+
+.pg-dashboard .container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.pg-notification {
+    display: block;
+    width: calc(100% - 80px);
+    padding: 20px 0;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--light);
+}
+
+.pg-notification img {
+    display: inline-block;
+    width: 40px;
+    border-radius: 50%;
+    vertical-align: top;
+}
+
+.pg-notification .main-info {
+    display: inline-block;
+    width: calc(100% - 160px);
+    margin-left: 12px;
+}
+
+.pg-app-noNewNotification {
+    position: fixed;
+    z-index: 1001;
+    left: 50%;
+    top: 37.5%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 100px;
+    font: 20px/1 Anodina, sans-serif;
+    text-align: center;
+}
+
+.pg-notifyContent {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#pg-app-notification {
+    width: 768px;
+    margin: 0 auto;
 }

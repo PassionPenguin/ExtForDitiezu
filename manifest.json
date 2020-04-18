@@ -37,6 +37,7 @@
         "notifications",
         "webRequest",
         "webRequestBlocking",
+        "webNavigation",
         "storage",
         "http://*/*",
         "https://*/*"
@@ -49,21 +50,8 @@
         "images/brand.svg",
         "images/copyright.svg",
         "images/icon.svg",
-        "images/NotDitiezu.svg"
-    ],
-    "content_scripts": [
-        {
-            "matches": [
-                "*://*.ditiezu.com/*"
-            ],
-            "js": [
-                "defaultScript.js"
-            ],
-            "css": [
-                "defaultStyle.css"
-            ],
-            "run_at": "document_end"
-        }
+        "images/PageNotFound.svg",
+        "images/Page.svg"
     ],
     "options_ui": {
         "page": "pages/options.html",
