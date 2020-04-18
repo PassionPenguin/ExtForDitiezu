@@ -139,6 +139,10 @@ body {
     display: none;
 }
 
+.pattl {
+    border: 0 !important;
+}
+
 .pg_index {
     overflow: hidden;
 }
@@ -452,4 +456,135 @@ body {
 #pg-app-notification {
     width: 768px;
     margin: 0 auto;
+}
+
+img.pg-threadAuthorAvatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.pg-threadAuthorInfo, .pg-threadPostMeta {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.pg-threadAuthorInfo p, .pg-threadPostInfo span {
+    display: inline-block;
+    margin: 0 0 0 10px;
+}
+
+.postThreadContent {
+    width: calc(100vw - 90px);
+    margin: 20px auto;
+}
+
+.postThreadContent .t_fsz {
+    min-height: unset;
+}
+
+p.pg-threadPostInfo {
+    color: var(--grey);
+}
+
+p.pg-threadAuthorName {
+    font: 800 14px/1 Anodina, sans-serif;
+}
+
+.pg-threadWrap, .pg-threadWrap * {
+    max-width: calc(100vw - 80px)
+}
+
+.pg-threadPost {
+    margin: 0 0 30px 0 !important;
+}
+
+.replyToThis:before {
+    /* Preferred icon size */
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+    display: inline-block;
+    content: "reply";
+    font: 24px/1 "Material Icons";
+    vertical-align: middle;
+    margin: -3px 6px 0 0;
+}
+
+.makeRate:before {
+    content: "flag";
+}
+
+.appreciate:before {
+    content: "thumb_up";
+}
+
+.dislike:before {
+    content: "thumb_down";
+}
+
+.star:before {
+    content: "star";
+}
+
+.appreciate:before, .dislike:before, .makeRate:before, .star:before {
+    /* Preferred icon size */
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+    display: inline-block;
+    font: 18px/1 "Material Icons";
+    vertical-align: middle;
+    margin: -3px 6px 0 12px;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 18px;
+}
+
+#append_parent #fwin_rate.fwinmask {
+    overflow: scroll !important;
+    width: fit-content !important;
+    height: fit-content !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    position: fixed !important;
+    left: 50% !important;
+    top: 37.5% !important;
+    transform: translate(-50%, -37.5%);
+}
+
+#append_parent > * {
+    z-index: 1002 !important;
+}
+
+.pg-threadWrap, .pg-threadWrap * {
+    max-width: 768px;
+}
+
+.pg-threadWrap {
+    margin: 48px auto 0 auto;
 }

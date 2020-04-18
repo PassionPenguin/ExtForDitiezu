@@ -49,8 +49,8 @@
         xmlHttpRequest.send(content);
     };
     if (!Array.prototype.last) {
-        Array.prototype.last = () => {
-            return this[this.length - 1]
+        Array.prototype.last = function () {
+            return this[this.length - 1];
         }
     }
     Element.prototype.cE = (el) => {
@@ -202,6 +202,269 @@
             } // RSS Feeds
             document.body.appendChild(contentList);
         })();
+
+    else if (document.body.classList.contains("pg_viewthread")) (() => {
+            if (pg.$("#pgt .pg>*").length !== 0) {
+                window.curPage = Int([...pg.$("#pgt .pg>*")].filter(i => i.tagName === "STRONG")[0].innerHTML);
+                window.lastPage = [...pg.$("#pgt .pg>*:not(.nxt)")].last().innerHTML;
+                lastPage = Int(lastPage.includes("...") ? lastPage.substr(4) : lastPage)
+            } else {
+                window.curPage = 1;
+                window.lastPage = 1
+            }
+            let contentList = cE({
+                type: "div",
+                attr: [["class", "pg-dashboard"]],
+                innerHTML: "<div class='container'></div>"
+            }).value();
+            let threadSubject = pg.$("#thread_subject")[0].innerHTML;
+            let threadPost = [];
+            threadPost = [...pg.$("div[id^='post_']>table[id^='pid']")].map((i, index) => [i.children[0].children, index]);
+            let threadWrap = cE({type: "div", attr: [["class", "pg-threadWrap"]]}).value();
+            threadPost.forEach(e => {
+                let c = e[0];
+                let id = e[1];
+                let thread = cE({type: "div", attr: [["class", "pg-threadPost"]]}).value();
+                let authorName = pg.$(".authi .xw1")[id].innerHTML;
+                let ThreadPostInfo = cE({type: "p", attr: [["class", "pg-threadPostMeta"]]}).value();
+                let postInfo = cE({type: "p", attr: [["class", "pg-threadPostInfo"]]}).value();
+                try {
+                    let avatarLevel = [...[...c][0].children[0].children].filter(i => i.tagName === "DIV").filter(i => i.classList.value === "")[0].children;
+                    let avatar = cE({
+                        type: "img",
+                        attr: [["src", avatarLevel[0].children[0].children[0].src], ["class", "pg-threadAuthorAvatar"]]
+                    }).value();
+                    let author = cE({
+                        type: "p",
+                        innerText: authorName,
+                        attr: [["class", "pg-threadAuthorName"]]
+                    }).value();
+                    let authorLevel = cE({
+                        type: "p",
+                        innerText: avatarLevel[1].children[0].children[0].innerHTML,
+                        attr: [["class", "pg-threadAuthorLevel"]]
+                    }).value();
+                    let authorInfo = cE({type: "div", attr: [["class", "pg-threadAuthorInfo"]]}).value();
+                    authorInfo.append(avatar);
+                    let UsrInfoBox = cE({type: "p", attr: [["class", "pg-threadAuthorInfo"]]}).value();
+                    UsrInfoBox.append(author);
+                    UsrInfoBox.append(authorLevel);
+                    thread.append(authorInfo);
+                    ThreadPostInfo.append(UsrInfoBox)
+                } catch (e) {
+                }
+                let threadContent = [...c][0].children[1].children;
+                let threadFloor = (curPage - 1) * 15 + id + 1;
+                let threadPostTime = pg.$(".authi em span")[id].innerHTML;
+                postInfo.append(cE({type: "span", innerText: "第" + threadFloor + "楼"}).value());
+                postInfo.append(cE({type: "span", innerHTML: "发表于" + threadPostTime}).value());
+                ThreadPostInfo.append(postInfo);
+                thread.append(ThreadPostInfo);
+                let pid = [...pg.$("#ct.wp>#postlist>div[id^='post_']")][id].id;
+                thread.append(cE({
+                    type: "div",
+                    attr: [["class", "postThreadContent"]],
+                    innerHTML: threadContent[1].innerHTML.replace(/src="*".+zoomfile="/ig, "src=\"")
+                }).value());
+                let threadUtil = cE({type: "div", attr: [["class", "threadUtil"]]}).value();
+                let replyBTN = cE({
+                    type: "span",
+                    attr: [["class", "replyToThis"], ["rid", pid.substr(5)]],
+                    innerText: "回复"
+                }).value();
+                replyBTN.onclick = () => {
+                    window.location.href = (id !== "0" ? ("http://www.ditiezu.com/forum.php?mod=post&action=reply&tid=" + eval(pg.$("#wp script")[0].innerText) + "&repquote=" + replyBTN.getAttribute("rid")) : "http://www.ditiezu.com/forum.php?mod=post&action=reply&tid=" + eval(pg.$("#wp script")[0].innerText));
+                };
+                threadUtil.append(replyBTN);
+                if (document.body.innerHTML.includes("评分")) {
+                    let rateBTN = cE({
+                        type: "span",
+                        attr: [["class", "makeRate"], ["rid", pid.substr(5)]],
+                        innerText: "评分"
+                    }).value();
+                    rateBTN.onclick = () => {
+                        showWindow('rate', 'forum.php?mod=misc&action=rate&tid=' + eval(pg.$("#wp script")[0].innerText) + '&pid=' + rateBTN.getAttribute("rid") + '', 'get', -1);
+                        return false
+                    };
+                    threadUtil.append(rateBTN)
+                }
+                if (threadFloor === 1) {
+                    let star = cE({
+                        type: "span",
+                        attr: [["class", "star"], ["rid", pid.substr(5)]],
+                        innerText: "收藏"
+                    }).value();
+                    star.onclick = () => {
+                        pg.$("#k_favorite")[0].click();
+                        star.classList.add("theme-color");
+                        return false
+                    };
+                    threadUtil.append(star);
+                    let appreciate = cE({
+                        type: "span",
+                        attr: [["class", "appreciate"], ["rid", pid.substr(5)]],
+                        innerText: "赞"
+                    }).value();
+                    appreciate.onclick = () => {
+                        pg.$("#recommend_add")[0].click();
+                        star.classList.add("theme-color");
+                        return false
+                    };
+                    threadUtil.append(appreciate);
+                    let dislike = cE({
+                        type: "span",
+                        attr: [["class", "dislike"], ["rid", pid.substr(5)]],
+                        innerText: "踩"
+                    }).value();
+                    dislike.onclick = () => {
+                        pg.$("#recommend_subtract")[0].click();
+                        star.classList.add("theme-color");
+                        return false
+                    };
+                    threadUtil.append(dislike)
+                }
+                thread.append(threadUtil);
+                threadWrap.append(thread)
+            });
+            contentList.append(threadWrap);
+            try {
+                let loadPostList = (page) => {
+                    window.location.href = ("http://www.ditiezu.com/forum.php?mod=viewthread&tid=" + eval(pg.$("#wp script")[0].innerText) + "&page=" + page)
+                };
+                let pgsBox = cE({type: "div", attr: [["id", "pg-pgs"]]});
+                if (curPage !== 1) {
+                    let firstPage = cE({
+                        type: "span",
+                        innerText: "first_page",
+                        attr: [["class", "mi nextPage"]]
+                    }).value();
+                    firstPage.onclick = () => {
+                        loadPostList(1)
+                    };
+                    pgsBox.append(firstPage);
+                    let prevPage = cE({
+                        type: "span",
+                        innerText: "chevron_left",
+                        attr: [["class", "mi prevPage"]]
+                    }).value();
+                    prevPage.onclick = () => {
+                        loadPostList(curPage - 1)
+                    };
+                    pgsBox.append(prevPage)
+                }
+                if (curPage - 1 >= 1) {
+                    let page = cE({type: "span", innerText: (curPage - 1), attr: [["class", "mi page"]]}).value();
+                    page.onclick = () => {
+                        loadPostList(curPage - 1)
+                    };
+                    pgsBox.append(page)
+                }
+                pgsBox.append(cE({type: "span", innerText: curPage}).value());
+                if (curPage + 1 <= lastPage) {
+                    let page = cE({type: "span", innerText: (curPage + 1), attr: [["class", "mi page"]]}).value();
+                    page.onclick = () => {
+                        loadPostList(curPage + 1)
+                    };
+                    pgsBox.append(page)
+                }
+                if (curPage !== lastPage) {
+                    let nextPage = cE({
+                        type: "span",
+                        innerText: "chevron_right",
+                        attr: [["class", "mi nextPage"]]
+                    }).value();
+                    nextPage.onclick = () => {
+                        loadPostList(curPage + 1)
+                    };
+                    pgsBox.append(nextPage);
+                    let lPCont = cE({type: "span", innerText: "last_page", attr: [["class", "mi nextPage"]]}).value();
+                    lPCont.onclick = () => {
+                        loadPostList(lastPage)
+                    };
+                    pgsBox.append(lPCont)
+                }
+                contentList.append(pgsBox)
+            } catch (e) {
+                console.log("A/E:\tOnly One Page")
+            }
+            contentList.append(cE({
+                type: "p",
+                attr: [["style", "text-align:center;margin:10px 0;"], ["id", "pg-copyInfo"]],
+                innerText: "designed and coded by @PassionPenguin"
+            }).value());
+            document.body.append(cE({
+                type: "div",
+                attr: [["id", "newReplyToggle"], ["onclick", "loadURL(\"http://www.ditiezu.com/forum.php?mod=post&action=reply&tid=" + eval(pg.$("#wp script")[0].innerText) + "\")"]],
+                innerText: "add"
+            }).value());
+            if (pg.$("#modmenu").length !== 0) {
+                let ctrlMenuPopupToggle = cE({
+                    type: "span",
+                    attr: [["class", "mi theme-color ic-ctrl"]],
+                    innerText: "more_vert"
+                }).value();
+                ctrlMenuPopupToggle.onclick = () => {
+                    // 删除主题|升降|置顶|高亮|精华|图章|图标|关闭|移动|分类|复制|合并|分割|修复|警告|屏蔽
+                    pg.select("版主操作", ["关闭窗口，取消操作", "删除主题", "升降", "置顶", "高亮", "精华", "图章", "图标", "关闭", "移动", "分类", "复制", "合并", "分割", "修复", "警告", "屏蔽"], "关闭窗口，取消操作", (res) => {
+                        if (res !== "关闭窗口取消操作") {
+                            switch (res) {
+                                case "删除主题":
+                                    pg.$("#modmenu a")[0].click();
+                                    break;
+                                case "升降":
+                                    pg.$("#modmenu a")[1].click();
+                                    break;
+                                case "置顶":
+                                    pg.$("#modmenu a")[2].click();
+                                    break;
+                                case "高亮":
+                                    pg.$("#modmenu a")[3].click();
+                                    break;
+                                case "精华":
+                                    pg.$("#modmenu a")[4].click();
+                                    break;
+                                case "图章":
+                                    pg.$("#modmenu a")[5].click();
+                                    break;
+                                case "图标":
+                                    pg.$("#modmenu a")[6].click();
+                                    break;
+                                case "关闭":
+                                    pg.$("#modmenu a")[7].click();
+                                    break;
+                                case "移动":
+                                    pg.$("#modmenu a")[8].click();
+                                    break;
+                                case "分类":
+                                    pg.$("#modmenu a")[9].click();
+                                    break;
+                                case "复制":
+                                    pg.$("#modmenu a")[10].click();
+                                    break;
+                                case "合并":
+                                    pg.$("#modmenu a")[11].click();
+                                    break;
+                                case "分割":
+                                    pg.$("#modmenu a")[12].click();
+                                    break;
+                                case "修复":
+                                    pg.$("#modmenu a")[13].click();
+                                    break;
+                                case "警告":
+                                    pg.$("#modmenu a")[14].click();
+                                    break;
+                                case "屏蔽":
+                                    pg.$("#modmenu a")[15].click();
+                                    break;
+                            }
+                        }
+                    }, "选择了相对应的操作过后，将会有另外的窗口弹出来供版主操作");
+                };
+                contentList.append(ctrlMenuPopupToggle);
+            }
+            document.body.appendChild(contentList);
+        }
+    )();
 
     else if ($_GET['mod'] === "space" && $_GET['do'] === "notice") {
         (() => {
