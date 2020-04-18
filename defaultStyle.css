@@ -2,9 +2,10 @@
     --green: #4caf50;
     --red: #f44336;
     --orange: #ffc107;
-    --theme: #00bcd4;
-    --theme_l: #b2ebf2;
-    --theme_d: #006064;
+    --theme: #009688;
+    --theme_l: #4DB6AC;
+    --theme_d: #00796B;
+    --bgwhite: #efefef;
     --exlight: #eee;
     --sulight: #ddd;
     --light: #ccc;
@@ -85,7 +86,7 @@ pg-switchtoggle[selected="true"] {
 }
 
 body {
-    background: var(--white);
+    background: var(--sulight);
 }
 
 .btn {
@@ -111,10 +112,41 @@ body {
     color: var(--white);
 }
 
+.typeName {
+    padding: 6px 12px;
+    margin: 12px 0 0 calc(50% - 384px);
+    font: 600 16px/1 Anodina, sans-serif;
+    color: var(--theme);
+    position: relative;
+    width: fit-content;
+}
+
+.typeName span {
+    display: block;
+    margin: 12px 0 24px 0;
+}
+
+.typeName .icon {
+    width: 8px;
+    height: 8px;
+    border-top: 1px solid var(--sulight);
+    border-left: 1px solid var(--sulight);
+    position: absolute;
+    transform: rotateZ(45deg);
+    left: 50%;
+    margin-left: -4px;
+    bottom: -4px;
+    z-index: 2;
+    background: #fff;
+}
+
 .typeSelector {
     width: 768px;
     padding: 6px 0;
-    margin: 24px auto 0 auto;
+    margin: 0 auto;
+    border: 1px solid var(--sulight);
+    border-left: 0;
+    border-right: 0;
 }
 
 .typeSelector .choice {
@@ -122,13 +154,17 @@ body {
     min-width: 72px;
     text-align: center;
     padding: 6px 0;
-    border-bottom: 2px solid transparent;
+    color: var(--dark);
     cursor: pointer;
     font: 13px/1 Anodina, sans-serif;
 }
 
 .typeSelector .choice.active, .typeSelector .choice:focus, .typeSelector .choice:hover {
-    border-bottom-color: var(--theme);
+    color: var(--theme);
+}
+
+.typeSelector .choice.active {
+    font-weight: 600;
 }
 
 #toptb {
@@ -178,6 +214,7 @@ body {
 }
 
 .pg-header > .searchBar {
+    box-sizing: content-box;
     border: 2px solid var(--theme_l);
     border-radius: 16px;
     width: calc(100% - 640px);
@@ -212,6 +249,7 @@ body {
     margin: 0 20px;
     padding-bottom: 2px;
     text-decoration: none;
+    color: var(--theme_d);
 }
 
 .pg-header a {
@@ -414,7 +452,7 @@ body {
     top: 48px;
     bottom: 0;
     z-index: 10000;
-    background: var(--white);
+    background: var(--bgwhite);
     width: 100%;
     height: calc(100% - 48px);
     overflow: scroll;
@@ -435,15 +473,21 @@ body {
 
 .pg-notification img {
     display: inline-block;
-    width: 40px;
+    width: 46px;
     border-radius: 50%;
     vertical-align: top;
 }
 
 .pg-notification .main-info {
     display: inline-block;
-    width: calc(100% - 160px);
+    width: calc(100% - 60px);
     margin-left: 12px;
+}
+
+.pg-notification .main-info .pg-sendTime {
+    color: #b0b0b0;
+    margin-top: 5px;
+    font: 14px/1 Anodina, sans-serif;
 }
 
 .pg-app-noNewNotification {
@@ -459,9 +503,7 @@ body {
 }
 
 .pg-notifyContent {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    font: 15px/30px Anodina, sans-serif;
 }
 
 #pg-app-notification {
@@ -469,9 +511,24 @@ body {
     margin: 0 auto;
 }
 
+.pg-threadSubject {
+    padding: 24px 0;
+}
+
+#pg_subject {
+    font: 600 28px/2 Anodina, sans-serif;
+    color: var(--dark);
+}
+
+.pg-threadSubject :not(#pg_subject) {
+    font: 900 24px/2 Anodina, sans-serif;
+    color: var(--grey);
+    margin-right: 12px;
+}
+
 img.pg-threadAuthorAvatar {
-    width: 36px;
-    height: 36px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     display: inline-block;
     vertical-align: middle;
@@ -501,7 +558,7 @@ p.pg-threadPostInfo {
 }
 
 p.pg-threadAuthorName {
-    font: 800 14px/1 Anodina, sans-serif;
+    font: 800 16px/1 Anodina, sans-serif;
 }
 
 .pg-threadWrap, .pg-threadWrap * {
@@ -510,7 +567,7 @@ p.pg-threadAuthorName {
 
 .pg-threadPost {
     margin: 0 0 30px 0 !important;
-    border-bottom: 1px solid var(--exlight);
+    border-bottom: 1px solid var(--sulight);
     padding-bottom: 20px;
 }
 
@@ -600,4 +657,44 @@ p.pg-threadAuthorName {
 
 .pg-threadWrap {
     margin: 48px auto 0 auto;
+    background: var(--white);
+    padding: 0 48px 48px 48px;
+    border-top: 3px solid var(--theme_d);
+}
+
+#pg-pgs {
+    width: fit-content;
+    margin: 0 auto;
+    background: var(--white);
+    display: block;
+}
+
+#pg-pgs span {
+    padding: 3px;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    text-align: center;
+    font: 16px/24px Anodina, sans-serif;
+    margin: 6px;
+    border: 1px solid transparent;
+}
+
+span.page {
+    background: var(--bgwhite);
+    cursor: pointer;
+}
+
+#pg-pgs span:not(.page) {
+    font-weight: 900;
+}
+
+span.page:hover, span.page:focus {
+    background: var(--white);
+    border-color: var(--light) !important;
+}
+
+span.page.mi {
+    font-family: 'Material Icons', sans-serif !important;
 }
