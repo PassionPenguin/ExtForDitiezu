@@ -187,11 +187,22 @@ body {
     outline: none;
     line-height: 16px;
     color: var(--dark);
+    display: none;
+}
+
+@media screen and (min-width: 1024px) {
+    .pg-header > .searchBar {
+        display: inline-block;
+    }
 }
 
 .pg-header > .searchBar:focus {
     border-color: var(--theme);
     color: var(--black);
+}
+
+.pg-header > .account {
+    float: right;
 }
 
 .pg-header > * > * {
@@ -499,6 +510,8 @@ p.pg-threadAuthorName {
 
 .pg-threadPost {
     margin: 0 0 30px 0 !important;
+    border-bottom: 1px solid var(--exlight);
+    padding-bottom: 20px;
 }
 
 .replyToThis:before {
@@ -562,7 +575,6 @@ p.pg-threadAuthorName {
     margin: -3px 6px 0 12px;
     font-weight: normal;
     font-style: normal;
-    font-size: 18px;
 }
 
 #append_parent #fwin_rate.fwinmask {
@@ -575,10 +587,11 @@ p.pg-threadAuthorName {
     left: 50% !important;
     top: 37.5% !important;
     transform: translate(-50%, -37.5%);
+    z-index: 999999 !important;
 }
 
 #append_parent > * {
-    z-index: 1002 !important;
+    z-index: 999999 !important;
 }
 
 .pg-threadWrap, .pg-threadWrap * {

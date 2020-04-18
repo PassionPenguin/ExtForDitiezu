@@ -1,9 +1,7 @@
 let content = document.querySelector(".content");
-chrome.storage.sync.get(["userAgent", "overrideRequest"], (items) => {
-    chrome.tabs.getSelected(null, (tab) => {
-        if (["ditiezu.com", "localhost"].indexOf(tab.url.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)[0]) === -1) content.innerHTML = `<div class="notDitiezuPageAlert"><img src="../images/PageNotFound.svg" alt="PageNotFound" />${chrome.i18n.getMessage('notDitiezuPage')}</div>`;
-        else content.innerHTML = `<div class="notDitiezuPageAlert"><img src="../images/Page.svg" alt="Page" />${chrome.i18n.getMessage('inProgress')}</div>`;
-    });
+chrome.tabs.getSelected(null, (tab) => {
+    if (["ditiezu.com", "localhost"].indexOf(tab.url.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)[0]) === -1) content.innerHTML = `<div class="notDitiezuPageAlert"><img src="../images/PageNotFound.svg" alt="PageNotFound" />${chrome.i18n.getMessage('notDitiezuPage')}</div>`;
+    else content.innerHTML = `<div class="content"><img src="../images/RunInProgress.svg" alt="Page" />${chrome.i18n.getMessage('Running')}</div>`;
 });
 
 

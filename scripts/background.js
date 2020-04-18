@@ -33,7 +33,7 @@ chrome.webNavigation.onCommitted.addListener(() => {
     });
 }, {
     url: [{
-        hostContains: '.ditiezu.'
+        hostContains: 'ditiezu.'
     }],
 });
 chrome.webNavigation.onDOMContentLoaded.addListener(() => {
@@ -45,13 +45,13 @@ chrome.webNavigation.onDOMContentLoaded.addListener(() => {
     });
 }, {
     url: [{
-        hostContains: '.ditiezu.'
+        hostContains: 'ditiezu.'
     }],
 });
 chrome.webNavigation.onCompleted.addListener(() => {
     chrome.tabs.executeScript({code: "setTimeout(()=>{document.querySelector('#loadingAnimation').style.opacity='0';setTimeout(()=>{try{document.body.removeChild(document.querySelector('#loadingAnimation'));}catch(e){}},500);},500);"});
 }, {
     url: [{
-        hostContains: '.ditiezu.'
+        hostContains: 'ditiezu.'
     }],
 })

@@ -204,6 +204,7 @@
         })();
 
     else if (document.body.classList.contains("pg_viewthread")) (() => {
+            eval(pg.$("#wp script")[0].innerText);
             if (pg.$("#pgt .pg>*").length !== 0) {
                 window.curPage = Int([...pg.$("#pgt .pg>*")].filter(i => i.tagName === "STRONG")[0].innerHTML);
                 window.lastPage = [...pg.$("#pgt .pg>*:not(.nxt)")].last().innerHTML;
@@ -253,74 +254,54 @@
                     ThreadPostInfo.append(UsrInfoBox)
                 } catch (e) {
                 }
-                let threadContent = [...c][0].children[1].children;
                 let threadFloor = (curPage - 1) * 15 + id + 1;
                 let threadPostTime = pg.$(".authi em span")[id].innerHTML;
                 postInfo.append(cE({type: "span", innerText: "第" + threadFloor + "楼"}).value());
                 postInfo.append(cE({type: "span", innerHTML: "发表于" + threadPostTime}).value());
                 ThreadPostInfo.append(postInfo);
                 thread.append(ThreadPostInfo);
-                let pid = [...pg.$("#ct.wp>#postlist>div[id^='post_']")][id].id;
+                let pid = [...pg.$("#ct.wp>#postlist>div[id^='post_']")].map(i => i.id.substr(5))[id];
                 thread.append(cE({
                     type: "div",
                     attr: [["class", "postThreadContent"]],
-                    innerHTML: threadContent[1].innerHTML.replace(/src="*".+zoomfile="/ig, "src=\"")
+                    innerHTML: e[0][0].children[1].children[1].innerHTML.replace(/src="*".+zoomfile="/ig, "src=\"") + e[0][1].innerHTML
                 }).value());
                 let threadUtil = cE({type: "div", attr: [["class", "threadUtil"]]}).value();
                 let replyBTN = cE({
                     type: "span",
-                    attr: [["class", "replyToThis"], ["rid", pid.substr(5)]],
+                    attr: [["class", "replyToThis"], ["pid", pid]],
                     innerText: "回复"
                 }).value();
                 replyBTN.onclick = () => {
-                    window.location.href = (id !== "0" ? ("http://www.ditiezu.com/forum.php?mod=post&action=reply&tid=" + eval(pg.$("#wp script")[0].innerText) + "&repquote=" + replyBTN.getAttribute("rid")) : "http://www.ditiezu.com/forum.php?mod=post&action=reply&tid=" + eval(pg.$("#wp script")[0].innerText));
+                    window.location.href = (id !== "0" ? ("http://www.ditiezu.com/forum.php?mod=post&action=reply&tid=" + tid + "&repquote=" + replyBTN.getAttribute("pid")) : "http://www.ditiezu.com/forum.php?mod=post&action=reply&tid=" + tid);
                 };
                 threadUtil.append(replyBTN);
                 if (document.body.innerHTML.includes("评分")) {
                     let rateBTN = cE({
                         type: "span",
-                        attr: [["class", "makeRate"], ["rid", pid.substr(5)]],
+                        attr: [["class", "makeRate"], ["pid", pid], ["onclick", `showWindow('rate', 'forum.php?mod=misc&action=rate&tid=' + tid + '&pid=' + ${pid} + '', 'get', -1);`]],
                         innerText: "评分"
                     }).value();
-                    rateBTN.onclick = () => {
-                        showWindow('rate', 'forum.php?mod=misc&action=rate&tid=' + eval(pg.$("#wp script")[0].innerText) + '&pid=' + rateBTN.getAttribute("rid") + '', 'get', -1);
-                        return false
-                    };
                     threadUtil.append(rateBTN)
                 }
                 if (threadFloor === 1) {
                     let star = cE({
                         type: "span",
-                        attr: [["class", "star"], ["rid", pid.substr(5)]],
+                        attr: [["class", "star"], ["pid", pid], ["onclick", "document.querySelectorAll(\"#k_favorite\")[0].click();"]],
                         innerText: "收藏"
                     }).value();
-                    star.onclick = () => {
-                        pg.$("#k_favorite")[0].click();
-                        star.classList.add("theme-color");
-                        return false
-                    };
                     threadUtil.append(star);
                     let appreciate = cE({
                         type: "span",
-                        attr: [["class", "appreciate"], ["rid", pid.substr(5)]],
+                        attr: [["class", "appreciate"], ["pid", pid], ["onclick", "document.querySelectorAll(\"#recommend_add\")[0].click();"]],
                         innerText: "赞"
                     }).value();
-                    appreciate.onclick = () => {
-                        pg.$("#recommend_add")[0].click();
-                        star.classList.add("theme-color");
-                        return false
-                    };
                     threadUtil.append(appreciate);
                     let dislike = cE({
                         type: "span",
-                        attr: [["class", "dislike"], ["rid", pid.substr(5)]],
+                        attr: [["class", "dislike"], ["pid", pid], ["onclick", "document.querySelectorAll(\"#recommend_subtract\")[0].click();"]],
                         innerText: "踩"
                     }).value();
-                    dislike.onclick = () => {
-                        pg.$("#recommend_subtract")[0].click();
-                        star.classList.add("theme-color");
-                        return false
-                    };
                     threadUtil.append(dislike)
                 }
                 thread.append(threadUtil);
@@ -329,7 +310,7 @@
             contentList.append(threadWrap);
             try {
                 let loadPostList = (page) => {
-                    window.location.href = ("http://www.ditiezu.com/forum.php?mod=viewthread&tid=" + eval(pg.$("#wp script")[0].innerText) + "&page=" + page)
+                    window.location.href = ("http://www.ditiezu.com/forum.php?mod=viewthread&tid=" + tid + "&page=" + page)
                 };
                 let pgsBox = cE({type: "div", attr: [["id", "pg-pgs"]]});
                 if (curPage !== 1) {
@@ -394,7 +375,7 @@
             }).value());
             document.body.append(cE({
                 type: "div",
-                attr: [["id", "newReplyToggle"], ["onclick", "loadURL(\"http://www.ditiezu.com/forum.php?mod=post&action=reply&tid=" + eval(pg.$("#wp script")[0].innerText) + "\")"]],
+                attr: [["id", "newReplyToggle"], ["onclick", "loadURL(\"http://www.ditiezu.com/forum.php?mod=post&action=reply&tid=" + tid + "\")"]],
                 innerText: "add"
             }).value());
             if (pg.$("#modmenu").length !== 0) {

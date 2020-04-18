@@ -51,6 +51,7 @@
         "images/copyright.svg",
         "images/icon.svg",
         "images/PageNotFound.svg",
+        "images/RunInProgress.svg",
         "images/Page.svg"
     ],
     "options_ui": {
