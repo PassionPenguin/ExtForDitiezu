@@ -96,7 +96,7 @@ body {
     border: 2px solid var(--white);
     border-radius: 5px;
     transition: 500ms;
-    height: 36px;
+    height: 40px;
     margin: 4px auto;
     width: calc(100% - 12px);
     outline: none;
@@ -177,6 +177,10 @@ body {
 
 .pattl {
     border: 0 !important;
+}
+
+#imgzoom_cover {
+    z-index: 999998 !important;
 }
 
 .pg_index {
@@ -341,7 +345,7 @@ body {
     margin-bottom: 10px;
     font-size: 13px;
     background: var(--white);
-    padding: 5px;
+    padding: 20px;
 }
 
 .pg-focus-otherItem {
@@ -394,7 +398,7 @@ body {
 }
 
 .pg-feed:hover, .pg-feed:focus, #pg-focus-topWrap:hover, #pg-focus-topWrap:focus, .pg-focus-otherItem:hover, .pg-focus-otherItem:focus {
-    background: var(--exlight);
+    background: var(--sulight);
 }
 
 #pg-focus-topWrap:hover, #pg-focus-topWrap:focus, .pg-focus-otherItem:hover, .pg-focus-otherItem:focus {
@@ -455,7 +459,7 @@ body {
     background: var(--bgwhite);
     width: 100%;
     height: calc(100% - 48px);
-    overflow: scroll;
+    overflow: hidden scroll;
 }
 
 .pg-dashboard .container {
@@ -697,4 +701,93 @@ span.page:hover, span.page:focus {
 
 span.page.mi {
     font-family: 'Material Icons', sans-serif !important;
+}
+
+.simpleReplyBox {
+    margin: 48px auto 0 auto;
+    background: var(--white);
+    padding: 0 48px 48px 48px;
+    border-top: 3px solid var(--theme_l);
+    max-width: 100%;
+    width: 864px;
+    box-sizing: border-box;
+}
+
+.pg-reTitle {
+    font: 800 24px/2 Anodina, sans-serif;
+    color: var(--dark);
+}
+
+.simpleEditor {
+    display: block;
+    margin: 24px;
+    width: 100%;
+}
+
+.simpleEditor .toolBar {
+    padding: 12px;
+    border-bottom: 1px solid var(--sulight);
+    border-top: 1px solid var(--sulight);
+    margin: 12px;
+    height: 36px;
+}
+
+.simpleEditor .leftbar {
+    display: inline-block;
+    float: left;
+    padding: 6px 0;
+    vertical-align: middle;
+}
+
+.simpleEditor .leftbar .mi {
+    width: 30px;
+    height: 30px;
+    margin-right: 12px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 30px;
+}
+
+.simpleEditor .leftbar .mi:hover, .simpleEditor .leftbar .mi:focus {
+    background: var(--bgwhite);
+}
+
+.simpleEditor .rightbar {
+    display: inline-block;
+    float: right;
+    padding: 9px 12px;
+    vertical-align: middle;
+    border: 1px solid var(--sulight);
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.simpleEditor .rightbar:hover, .simpleEditor .rightbar:focus {
+    background-color: var(--bgwhite);
+    border-color: var(--grey);
+}
+
+#simpleEditor {
+    display: block;
+    height: 200px;
+    margin: 12px;
+    width: calc(100% - 30px);
+    outline: none;
+    background: var(--bgwhite);
+    border: 0;
+    padding: 12px;
+    box-sizing: border-box;
+}
+
+.simpleEditor .btn.post {
+    border-color: var(--theme_d);
+    width: fit-content;
+    margin-left: 12px;
+    padding: 0 24px;
+    cursor: pointer;
+}
+
+.simpleEditor .btn.post:hover, .simpleEditor .btn.post:focus {
+    border-color: var(--theme_l);
+    background-color: var(--bgwhite);
 }

@@ -122,7 +122,7 @@
     })();
 
     if (document.body.classList.contains("pg_index")) (() => {
-        document.documentElement.style.overflowY = "hidden";
+        document.documentElement.style.overflow = "hidden";
         let contentList = cE({
             type: "div",
             attr: [["class", "pg-dashboard"]],
@@ -209,7 +209,7 @@
     })();
 
     else if (document.body.classList.contains("pg_viewthread")) (() => {
-        document.documentElement.style.overflowY = "hidden";
+        document.documentElement.style.overflow = "hidden";
         eval(pg.$("#wp script")[0].innerText);
         if (pg.$("#pgt .pg>*").length !== 0) {
             window.curPage = Int([...pg.$("#pgt .pg>*")].filter(i => i.tagName === "STRONG")[0].innerHTML);
@@ -221,8 +221,7 @@
         }
         let contentList = cE({
             type: "div",
-            attr: [["class", "pg-dashboard"]],
-            innerHTML: "<div class='container'></div>"
+            attr: [["class", "pg-dashboard"]]
         }).value();
         let threadPost = [];
         threadPost = [...pg.$("div[id^='post_']>table[id^='pid']")].map((i, index) => [i.children[0].children, index]);
@@ -381,11 +380,6 @@
         } catch (e) {
             console.log(e);
         }
-        contentList.append(cE({
-            type: "p",
-            attr: [["style", "text-align:center;margin:10px 0;"], ["id", "pg-copyInfo"]],
-            innerText: "designed and coded by @PassionPenguin"
-        }).value());
         document.body.append(cE({
             type: "div",
             attr: [["id", "newReplyToggle"], ["onclick", "loadURL(\"http://www.ditiezu.com/forum.php?mod=post&action=reply&tid=" + tid + "\")"]],
@@ -456,15 +450,21 @@
             };
             contentList.append(ctrlMenuPopupToggle);
         }
+
+        contentList.appendChild(cE({
+            type: "div",
+            attr: [["class", "simpleReplyBox"]],
+            innerHTML: `<p class="pg-reTitle">RE: ${pg.$("#thread_subject")[0].innerHTML}</p><div class="simpleEditor"><div class="toolBar"><div class="leftbar"><span class="mi">format_bold</span><span class="mi">format_strikethrough</span><span class="mi">format_size</span><span class="mi">color_lens</span><span class="mi">insert_photo</span><span class="mi">insert_link</span><span class="mi">emoji_emotions</span></div><div class="rightbar" onclick="window.location.href='http://www.ditiezu.com/forum.php?mod=post&action=reply&tid=${tid}'">高级编辑框</div></div><textarea name="simpleEditor" id="simpleEditor"></textarea><button class="btn post" onclick="document.querySelector('#fastpostmessage').value=document.querySelector('#simpleEditor').value;document.querySelector('#fastpostsubmit').click();">回复</button></div>`
+        }).value());
+
         document.body.appendChild(contentList);
     })();
 
     else if ($_GET['mod'] === "space" && $_GET['do'] === "notice") (() => {
-        document.documentElement.style.overflowY = "hidden";
+        document.documentElement.style.overflow = "hidden";
         let contentList = cE({
             type: "div",
-            attr: [["class", "pg-dashboard"]],
-            innerHTML: "<div class='container'></div>"
+            attr: [["class", "pg-dashboard"]]
         }).value();
         contentList.appendChild(cE({
             type: "div",
