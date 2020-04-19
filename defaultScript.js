@@ -545,9 +545,26 @@
                                 });
                                 document.body.appendChild(hover);
                             };
-                            colorBlock.onmouseleave = () => {
-                                document.body.removeChild(hover);
+                            let state = false;
+                            colorBlock.onmousemove = (e) => {
+                                e.stopPropagation();
+                                state = true;
                             };
+                            colorBlock.onmouseleave = () => {
+                                try {
+                                    window.onmousemove = null;
+                                    document.body.removeChild(hover);
+                                } catch (e) {
+                                }
+                            }
+                            window.onmousemove = () => {
+                                if (!state)
+                                    try {
+                                        window.onmousemove = null;
+                                        document.body.removeChild(hover);
+                                    } catch (e) {
+                                    }
+                            }
                         });
                     }
                 }));
@@ -826,6 +843,7 @@
 
 // Basic Comp
     (() => {
+        let news = pg.$("#myprompt")[0];
         document.head.appendChild(cE({
             type: "link",
             attr: [["rel", "stylesheet"], ["href", `${extUrl}/defaultStyle.css`]]
@@ -833,7 +851,7 @@
         let topBar = cE({
             type: "div",
             attr: [["class", "pg-header"]],
-            innerHTML: `<img src="${extUrl}/images/brand.svg" alt="Brand" class="brand"><div class="navg"><a href="/" class="mi" role="button">home</a><a href="/" class="mi" role="button">category</a></div><input class="searchBar" type="text" /><div class="account"><a href="/home.php?mod=space&do=notice" class="mi" role="button">notifications_none</a><a href="/home.php?mod=space&do=pm" class="mi" role="button">message</a><div class="avatar aboutAccont"></div></div>`
+            innerHTML: `<img src="${extUrl}/images/brand.svg" alt="Brand" class="brand"><div class="navg"><a href="/" class="mi" role="button">home</a><a href="/" class="mi" role="button">category</a></div><input class="searchBar" type="text" /><div class="account"><a href="/home.php?mod=space&do=notice" class="mi" role="button" style="color:${news !== undefined ? news.classList.contains('new') ? 'var(--theme_d)' : 'var(--theme)' : 'var(--theme)'}">notifications${news !== undefined ? news.classList.contains('new') ? '_active' : '' : '_none'}</a><a href="/home.php?mod=space&do=pm" class="mi" role="button">message</a><div class="avatar aboutAccont"></div></div>`
         });
         topBar.children[3].appendChild(cE({
             type: "img",
@@ -1021,7 +1039,7 @@
             } catch (e) {
             }
             let threadFloor = (curPage - 1) * 15 + id + 1;
-            let threadPostTime = pg.$(".authi em span")[id].innerHTML;
+            let threadPostTime = pg.$(".authi em")[id].innerText;
             postInfo.append(cE({type: "span", innerText: "第" + threadFloor + "楼"}));
             postInfo.append(cE({type: "span", innerHTML: "发表于" + threadPostTime}));
             ThreadPostInfo.append(postInfo);
