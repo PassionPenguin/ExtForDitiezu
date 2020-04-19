@@ -53,7 +53,7 @@
         return typeof variable === 'undefined';
     }
     const extUrl = `chrome-extension://${extId}`;
-    const uid = pg.$("#um .avt>a:first-child").length === 0 ? 0 : pg.$("#um .avt>a:first-child")[0].href.substring(pg.$("#um .avt>a:first-child")[0].href.indexOf("uid-") + 4, pg.$("#um .avt>a:first-child")[0].href.lastIndexOf(".html"));
+    const uid = Int(document.head.innerText.substring(document.head.innerText.indexOf('discuz_uid') + 14, document.head.innerText.indexOf("'", document.head.innerText.indexOf('discuz_uid') + 14)));
     const $_GET = {};
     if (window.location.search !== "")
         window.location.search.substr(1).split("&").forEach(i => {
@@ -851,8 +851,45 @@
         let topBar = cE({
             type: "div",
             attr: [["class", "pg-header"]],
-            innerHTML: `<img src="${extUrl}/images/brand.svg" alt="Brand" class="brand"><div class="navg"><a href="/" class="mi" role="button">home</a><a href="/" class="mi" role="button">category</a></div><input class="searchBar" type="text" /><div class="account"><a href="/home.php?mod=space&do=notice" class="mi" role="button" style="color:${news !== undefined ? news.classList.contains('new') ? 'var(--theme_d)' : 'var(--theme)' : 'var(--theme)'}">notifications${news !== undefined ? news.classList.contains('new') ? '_active' : '' : '_none'}</a><a href="/home.php?mod=space&do=pm" class="mi" role="button">message</a><div class="avatar aboutAccont"></div></div>`
+            innerHTML: `<img src="${extUrl}/images/brand.svg" alt="Brand" class="brand"><div class="navg"><a href="/" class="mi" role="button">home</a><a href="javascript:void(0)" class="mi" role="button">category</a></div><input class="searchBar" type="text" /><div class="account"><a href="/home.php?mod=space&do=notice" class="mi" role="button" style="color:${news !== undefined ? news.classList.contains('new') ? 'var(--theme_d)' : 'var(--theme)' : 'var(--theme)'}">notifications${news !== undefined ? news.classList.contains('new') ? '_active' : '' : '_none'}</a><a href="/home.php?mod=space&do=pm" class="mi" role="button">message</a><div class="avatar aboutAccont"></div></div>`
         });
+        topBar.children[1].onclick = () => {
+            WindowManager.create((view) => {
+                const blog = [[["7", "北京区"], ["39", "武汉区"], ["23", "广州区"], ["46", "城际高铁"], ["21", "站前广场"], ["53", "成都区"], ["24", "深圳区"], ["22", "南京区"], ["38", "重庆区"], ["6", "天津区"], ["8", "上海区"], ["64", "郑州区"], ["54", "西安区"], ["51", "苏州区"], ["66", "青岛区"], ["52", "杭州区"], ["70", "昆明区"], ["50", "沈阳区"], ["18", "意见建议"], ["37", "综合区"]],
+                    [["23", "广州区"], ["21", "站前广场"], ["7", "北京区"], ["39", "武汉区"], ["46", "城际高铁"], ["64", "郑州区"], ["53", "成都区"], ["24", "深圳区"], ["16", "都市风情"], ["38", "重庆区"], ["52", "杭州区"], ["37", "综合区"], ["15", "地铁美食"], ["54", "西安区"], ["22", "南京区"], ["56", "佛山区"], ["18", "意见建议"], ["6", "天津区"], ["51", "苏州区"], ["66", "青岛区"]],
+                    [["79", "澳门区"], ["7", "北京区"], ["48", "常州区"], ["53", "成都区"], ["46", "城际高铁"], ["38", "重庆区"], ["41", "大连区"], ["31", "地铁地产"], ["150", "地铁的真相"], ["15", "地铁美食"], ["146", "地铁族网刊"], ["75", "东莞区"], ["16", "都市风情"], ["152", "都市快轨交通"], ["56", "佛山区"], ["72", "福州区"], ["23", "广州区"], ["33", "轨道收藏"], ["43", "轨道知识"], ["145", "轨交游戏"], ["76", "贵阳区"], ["55", "哈尔滨区"], ["47", "海外区"], ["52", "杭州区"], ["74", "合肥区"], ["151", "呼和浩特区"], ["45", "机车车辆"], ["148", "济南区"], ["60", "交易市场"], ["70", "昆明区"], ["78", "兰州区"], ["71", "南昌区"], ["22", "南京区"], ["73", "南宁区"], ["65", "宁波区"], ["66", "青岛区"], ["77", "厦门区"], ["8", "上海区"], ["24", "深圳区"], ["50", "沈阳区"], ["140", "石家庄区"], ["51", "苏州区"], ["36", "台湾区"], ["6", "天津区"], ["142", "温州区"], ["143", "乌鲁木齐区"], ["68", "无锡区"], ["39", "武汉区"], ["54", "西安区"], ["28", "香港区"], ["144", "徐州区"], ["18", "意见建议"], ["21", "站前广场"], ["17", "站务公告"], ["40", "长春区"], ["67", "长沙区"], ["64", "郑州区"], ["37", "综合区"]]];
+                let categoryInner = cE({
+                    type: "div",
+                    attr: [["class", "pg-content"], ["style", "padding:0;margin:0;"]],
+                    innerHTML: `<div><div class="typeName"><div class="typeNameValue"><span>分区 Category</span><div class="icon"></div></div></div><div class='typeSelector'><div class="choice active">总发帖序</div><div class="choice">平均热度序</div><div class="choice">拼音序</div></div></div><div id="pg-selectCategory"></div>`
+                });
+                [...categoryInner.children[0].children[1].children].forEach((e, index) => {
+                    e.onclick = () => {
+                        loadContent(index);
+                    }
+                });
+                const loadContent = (id) => {
+                    categoryInner.querySelector('.active').classList.remove("active");
+                    categoryInner.children[0].children[1].children[id].classList.add("active");
+                    if (categoryInner.children[1].children.length > 0)
+                        categoryInner.children[1].removeChild(categoryInner.children[1].children[0]);
+                    let result = cE({type: "div"});
+                    blog[id].forEach(e => {
+                        result.appendChild(cE({
+                            type: "div",
+                            attr: [["role", "button"], ["class", "button"], ["style", "    padding-left:12px;width:calc(100% - 24px);color:var(--dark);"]],
+                            onclick: () => {
+                                window.location.href = `/forum-${e[0]}-1.html`;
+                            },
+                            innerText: e[1]
+                        }))
+                    });
+                    categoryInner.children[1].appendChild(result);
+                };
+                loadContent(0);
+                view.appendChild(categoryInner);
+            }, {withFooter: {with: false}, size: "small", title: "选择分区"});
+        };
         topBar.children[3].appendChild(cE({
             type: "img",
             attr: [["src", uid !== 0 ? pg.$("#um img")[0].src : "/uc_server/images/noavatar_small.gif"], ["alt", "avatar"]],
@@ -875,7 +912,7 @@
                     let aboutMeBlank = cE({
                         type: "div",
                         attr: [["class", "pg-aboutMeBlank"]],
-                        innerHTML: `<img src="${uid !== 0 ? pg.$("#um img")[0].src.replace("small", "big") : '/uc_server/images/noavatar_big.gif'}" alt="avatar" /><div class="userName">${uid === 0 ? "未登录" : pg.$("#um strong>a")[0].innerText}</div><hr><button class="button transparent" onclick="window.location.href='${uid === 0 ? '/member.php?mod=regditiezu.php' : pg.$("#um p>a:last-child").href}'">${uid === 0 ? "登录" : "登出"}</button>${uid === 0 ? "<div style='margin-bottom:20px;'></div>" : ("<hr>" + result.outerHTML)}`,
+                        innerHTML: `<img src="${uid !== 0 ? pg.$("#um img")[0].src.replace("small", "big") : '/uc_server/images/noavatar_big.gif'}" alt="avatar" onclick="window.location.href='/home.php?mod=space'" style="cursor:pointer;" /><div class="userName">${uid === 0 ? "未登录" : pg.$("#um strong>a")[0].innerText}</div><hr><button class="button transparent" onclick="window.location.href='${uid === 0 ? '/member.php?mod=regditiezu.php' : pg.$("#um p>a:last-child").href}'">${uid === 0 ? "登录" : "登出"}</button>${uid === 0 ? "<div style='margin-bottom:20px;'></div>" : ("<hr>" + result.outerHTML)}`,
                         onclick: (event) => {
                             event.stopPropagation();
                         }
@@ -983,7 +1020,6 @@
 
     else if (document.body.classList.contains("pg_viewthread")) (() => {
         document.documentElement.style.overflow = "hidden";
-        eval(pg.$("#wp script")[0].innerText);
         if (pg.$("#pgt .pg>*").length !== 0) {
             window.curPage = Int([...pg.$("#pgt .pg>*")].filter(i => i.tagName === "STRONG")[0].innerHTML);
             window.lastPage = [...pg.$("#pgt .pg>*:not(.nxt)")].last().innerHTML;
@@ -1357,7 +1393,7 @@
         document.body.appendChild(contentList.parentElement);
     })();
 
-    else if (pg.$("h1")[0].innerHTML === "Not Found" && pg.$("p")[1].innerHTML === "Additionally, a 404 Not Found\n" +
+    else if (pg.$("h1").length > 0 && pg.$("h1")[0].innerHTML === "Not Found" && pg.$("p")[1].innerHTML === "Additionally, a 404 Not Found\n" +
         "error was encountered while trying to use an ErrorDocument to handle the request.") {
         let contentList = cE({
             type: "div",

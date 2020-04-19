@@ -340,7 +340,7 @@ input {
     font-weight: 600;
 }
 
-#toptb {
+#toptb, #ft {
     display: none;
 }
 
@@ -354,6 +354,10 @@ input {
 
 #append_parent > #imgzoom_cover {
     z-index: 999998 !important;
+}
+
+#wp.wp {
+    margin-top: 64px;
 }
 
 .pg_index {
@@ -502,7 +506,7 @@ input {
 #pg-focus-topWrap {
     margin: 24px auto;
     background: var(--white);
-    padding: 5px;
+    padding: 20px !important;
 }
 
 #pg-focus-topWrap h2 {
@@ -518,7 +522,7 @@ input {
     margin-bottom: 10px;
     font-size: 13px;
     background: var(--white);
-    padding: 20px;
+    padding: 20px !important;
 }
 
 .pg-focus-otherItem {
