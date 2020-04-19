@@ -776,11 +776,14 @@
             document.body.appendChild(WindowFrame);
             if (opt.withMask !== "none")
                 document.body.appendChild(WindowMask);
-            if (opt.withBlur !== "none") {
-                pg.$(".pg-dashboard")[0].style.filter = "blur(10px)";
-                pg.$(".pg-dashboard")[0].style.top = "0";
-                pg.$(".pg-dashboard")[0].style.height = "100%";
-            }
+            if (opt.withBlur !== "none")
+                try {
+                    pg.$(".pg-dashboard")[0].style.filter = "blur(10px)";
+                    pg.$(".pg-dashboard")[0].style.top = "0";
+                    pg.$(".pg-dashboard")[0].style.height = "100%";
+                } catch (e) {
+                }
+
             WindowFrame.appendChild(content);
             let headbar = cE({type: "div", attr: [["class", "pg-window-topBar"]], innerHTML: "<div></div>"});
             content.appendChild(headbar);
@@ -834,9 +837,12 @@
                 } catch (e) {
                 }
                 document.body.removeChild(pg.$(`[windowId='${channelId}']`)[0]);
-                pg.$(".pg-dashboard")[0].style.filter = "";
-                pg.$(".pg-dashboard")[0].style.top = "";
-                pg.$(".pg-dashboard")[0].style.height = "";
+                try {
+                    pg.$(".pg-dashboard")[0].style.filter = "";
+                    pg.$(".pg-dashboard")[0].style.top = "";
+                    pg.$(".pg-dashboard")[0].style.height = "";
+                } catch (e) {
+                }
             }, 500);
             WindowManager.query.filter(i => i !== channelId);
         }
@@ -857,7 +863,7 @@
                 attr: [["class", "pg-header"]],
                 innerHTML: `<img src="${extUrl}/images/brand.svg" alt="Brand" class="brand"><div class="navg"><a href="/" class="mi" role="button">home</a><a href="javascript:void(0)" class="mi" role="button">category</a></div><input class="searchBar" type="text" /><div class="account"><a href="/home.php?mod=space&do=notice" class="mi" role="button" style="color:${news !== undefined ? news.classList.contains('new') ? 'var(--theme_d)' : 'var(--theme)' : 'var(--theme)'}">notifications${news !== undefined ? news.classList.contains('new') ? '_active' : '' : '_none'}</a><a href="/home.php?mod=space&do=pm" class="mi" role="button">message</a><div class="avatar aboutAccont"></div></div>`
             });
-            topBar.children[1].onclick = () => {
+            topBar.children[1].children[1].onclick = () => {
                 WindowManager.create((view) => {
                     const blog = [[["7", "北京区"], ["39", "武汉区"], ["23", "广州区"], ["46", "城际高铁"], ["21", "站前广场"], ["53", "成都区"], ["24", "深圳区"], ["22", "南京区"], ["38", "重庆区"], ["6", "天津区"], ["8", "上海区"], ["64", "郑州区"], ["54", "西安区"], ["51", "苏州区"], ["66", "青岛区"], ["52", "杭州区"], ["70", "昆明区"], ["50", "沈阳区"], ["18", "意见建议"], ["37", "综合区"]],
                         [["23", "广州区"], ["21", "站前广场"], ["7", "北京区"], ["39", "武汉区"], ["46", "城际高铁"], ["64", "郑州区"], ["53", "成都区"], ["24", "深圳区"], ["16", "都市风情"], ["38", "重庆区"], ["52", "杭州区"], ["37", "综合区"], ["15", "地铁美食"], ["54", "西安区"], ["22", "南京区"], ["56", "佛山区"], ["18", "意见建议"], ["6", "天津区"], ["51", "苏州区"], ["66", "青岛区"]],
@@ -919,7 +925,7 @@
                         let aboutMeBlank = cE({
                             type: "div",
                             attr: [["class", "pg-aboutMeBlank"]],
-                            innerHTML: `<img src="${userImageUrl.replace(/middle/, "big")}" onclick="window.location.href='/home.php?mod=space'" style="cursor:pointer;" /><div class="userName">${uid === 0 ? "未登录" : pg.$("#um strong>a,h2.mbn a")[0].innerText}</div><hr><button class="button transparent" onclick="window.location.href='${uid === 0 ? '/member.php?mod=regditiezu.php' : [...document.querySelectorAll("#toptb a")].filter(i => i.innerText === '退出')[0].href}'">${uid === 0 ? "登录" : "登出"}</button>${uid === 0 ? "<div style='margin-bottom:20px;'></div>" : ("<hr>" + result.outerHTML)}`,
+                            innerHTML: `<img src="${userImageUrl.replace(/middle/, "big")}" onclick="window.location.href='/home.php?mod=space'" style="cursor:pointer;" /><div class="userName">${uid === 0 ? "未登录" : pg.$("#um strong>a,h2.mbn a")[0].innerText}</div><hr><button class="button transparent" onclick="window.location.href='${uid === 0 ? '/member.php?mod=regditiezu.php' : [...document.querySelectorAll("a")].filter(i => i.innerText === '退出')[0].href}'">${uid === 0 ? "登录" : "登出"}</button>${uid === 0 ? "<div style='margin-bottom:20px;'></div>" : ("<hr>" + result.outerHTML)}`,
                             onclick: (event) => {
                                 event.stopPropagation();
                             }
