@@ -509,7 +509,7 @@
                 });
                 selectPalette.appendChild(cE({
                     type: "div",
-                    attr: [["style", "padding:5px;width:calc(100% - 20px);height:28px;"], ["class", "btn"]],
+                    attr: [["style", "padding:5px;width:calc(100% - 20px);height:28px;"], ["class", "button"]],
                     innerHTML: `<span style="font:900 16px/28px Anodina, sans-serif;margin-right:20px;color:var(--grey);width:100px;text-overflow:ellipsis;overflow: hidden;white-space:nowrap;vertical-align:middle;display:inline-block;">${colors.name}</span>${colorsPreview}`,
                     onclick: () => {
                         palettes.innerHTML = "";
@@ -559,11 +559,11 @@
             });
             let input = cE({
                 type: "input",
-                attr: [["style", "outline:none;padding:5px;display:inline-block;width:240px;font-size:14px;vertical-align:middle;"], ["class", "btn"], ["id", "inputValue"], ["placeholder", "#000000"]]
+                attr: [["style", "outline:none;padding:5px;display:inline-block;width:240px;font-size:14px;vertical-align:middle;"], ["class", "button"], ["id", "inputValue"], ["placeholder", "#000000"]]
             });
             let submit = cE({
                 type: "button",
-                attr: [["class", "btn"], ["style", "display:inline-block;width:50px;font-size:18px;height:50px;vertical-align:middle;"]],
+                attr: [["class", "button"], ["style", "display:inline-block;width:50px;font-size:18px;height:50px;vertical-align:middle;"]],
                 innerHTML: "<span class='mi'>done</span>",
                 onclick: (e) => {
                     console.log(input.value);
@@ -579,7 +579,7 @@
             });
             bottomSelector.appendChild(cE({
                 type: "button",
-                attr: [["class", "btn"], ["style", "width:fit-content;float:right;display:inline-block;line-height:30px!important;color:var(--theme);"]],
+                attr: [["class", "button"], ["style", "width:fit-content;float:right;display:inline-block;line-height:30px!important;color:var(--theme);"]],
                 innerText: "确认",
                 onclick: () => {
                     const hue = (parseFloat(HueCursor.style.left) - 7.5) / 240;
@@ -789,19 +789,19 @@
                 content.appendChild(cE({type: "div", attr: [["class", "pg-window-footer"]]}));
                 [...content.children].last().appendChild(cE({
                     type: "button",
-                    attr: [["class", "pg-window-footer-cancel"]],
-                    innerText: "取消",
+                    attr: [["class", "pg-window-footer-submit button"]],
+                    innerText: "确认",
                     onclick: () => {
-                        opt.withFooter.onCancel(innerContent);
+                        opt.withFooter.onSubmit(innerContent);
                         WindowManager.remove(opt.channelId);
                     }
                 }));
                 [...content.children].last().appendChild(cE({
                     type: "button",
-                    attr: [["class", "pg-window-footer-submit"]],
-                    innerText: "确认",
+                    attr: [["class", "pg-window-footer-cancel button"]],
+                    innerText: "取消",
                     onclick: () => {
-                        opt.withFooter.onSubmit(innerContent);
+                        opt.withFooter.onCancel(innerContent);
                         WindowManager.remove(opt.channelId);
                     }
                 }));
@@ -857,7 +857,7 @@
                     let aboutMeBlank = cE({
                         type: "div",
                         attr: [["class", "pg-aboutMeBlank"]],
-                        innerHTML: `<img src="${uid !== 0 ? pg.$("#um img")[0].src.replace("small", "big") : '/uc_server/images/noavatar_big.gif'}" alt="avatar" /><div class="userName">${uid === 0 ? "未登录" : pg.$("#um strong>a")[0].innerText}</div><hr><button class="btn transparent" onclick="window.location.href='${uid === 0 ? '/member.php?mod=regditiezu.php' : pg.$("#um p>a:last-child").href}'">${uid === 0 ? "登录" : "登出"}</button>${uid === 0 ? "<div style='margin-bottom:20px;'></div>" : ("<hr>" + result.outerHTML)}`,
+                        innerHTML: `<img src="${uid !== 0 ? pg.$("#um img")[0].src.replace("small", "big") : '/uc_server/images/noavatar_big.gif'}" alt="avatar" /><div class="userName">${uid === 0 ? "未登录" : pg.$("#um strong>a")[0].innerText}</div><hr><button class="button transparent" onclick="window.location.href='${uid === 0 ? '/member.php?mod=regditiezu.php' : pg.$("#um p>a:last-child").href}'">${uid === 0 ? "登录" : "登出"}</button>${uid === 0 ? "<div style='margin-bottom:20px;'></div>" : ("<hr>" + result.outerHTML)}`,
                         onclick: (event) => {
                             event.stopPropagation();
                         }
@@ -1033,22 +1033,22 @@
                 innerHTML: e[0][0].children[1].children[1].innerHTML.replace(/src="*".+zoomfile="/ig, "src=\"") + e[0][1].innerHTML
             }));
             let threadUtil = cE({type: "div", attr: [["class", "threadUtil"]]});
-            let replyBTN = cE({
+            let replybutton = cE({
                 type: "span",
                 attr: [["class", "replyToThis"], ["pid", pid]],
                 innerText: "回复"
             });
-            replyBTN.onclick = () => {
-                window.location.href = (id !== "0" ? ("http://www.ditiezu.com/forum.php?mod=post&action=reply&tid=" + tid + "&repquote=" + replyBTN.getAttribute("pid")) : "http://www.ditiezu.com/forum.php?mod=post&action=reply&tid=" + tid);
+            replybutton.onclick = () => {
+                window.location.href = (id !== "0" ? ("http://www.ditiezu.com/forum.php?mod=post&action=reply&tid=" + tid + "&repquote=" + replybutton.getAttribute("pid")) : "http://www.ditiezu.com/forum.php?mod=post&action=reply&tid=" + tid);
             };
-            threadUtil.append(replyBTN);
+            threadUtil.append(replybutton);
             if (document.body.innerHTML.includes("评分")) {
-                let rateBTN = cE({
+                let ratebutton = cE({
                     type: "span",
                     attr: [["class", "makeRate"], ["pid", pid], ["onclick", `showWindow('rate', 'forum.php?mod=misc&action=rate&tid=' + tid + '&pid=' + ${pid} + '', 'get', -1);`]],
                     innerText: "评分"
                 });
-                threadUtil.append(rateBTN)
+                threadUtil.append(ratebutton)
             }
             if (threadFloor === 1) {
                 let star = cE({
@@ -1210,57 +1210,98 @@
         let editor = cE({
             type: "div",
             attr: [["class", "simpleReplyBox"]],
-            innerHTML: `<p class="pg-reTitle">RE: ${pg.$("#thread_subject")[0].innerHTML}</p><div class="simpleEditor"><div class="toolBar"><div class="leftbar"><span class="mi">format_paint</span><span class="mi">color_lens</span><span class="mi">insert_photo</span><span class="mi">insert_link</span><span class="mi">emoji_emotions</span></div><div class="rightbar" onclick="window.location.href='http://www.ditiezu.com/forum.php?mod=post&action=reply&tid=${tid}'">高级编辑框</div></div><textarea name="simpleEditor" id="simpleEditor"></textarea><button class="btn post" onclick="document.querySelector('#fastpostmessage').value=document.querySelector('#simpleEditor').value;document.querySelector('#fastpostsubmit').click();">回复</button></div>`
+            innerHTML: `<p class="pg-reTitle">RE: ${pg.$("#thread_subject")[0].innerHTML}</p><div class="simpleEditor"><div class="toolBar"><div class="leftbar"><span class="mi">format_bold</span><span class="mi">format_strikethrough</span><span class="mi">text_fieldscolor_lens</span><span class="mi">color_lens</span><span class="mi">insert_photo</span><span class="mi">insert_link</span><span class="mi">insert_emoticon</span></div><div class="rightbar" onclick="window.location.href='http://www.ditiezu.com/forum.php?mod=post&action=reply&tid=${tid}'">高级编辑框</div></div><textarea name="simpleEditor" id="simpleEditor"></textarea><button class="button post" onclick="document.querySelector('#fastpostmessage').value=document.querySelector('#simpleEditor').value;document.querySelector('#fastpostsubmit').click();">回复</button></div>`
         });
         contentList.appendChild(editor);
 
         let tools = editor.children[1].children[0].children[0].children;
         const editorBox = editor.children[1].children[1];
-        tools[0].onclick = (e) => {
+        tools[0].onclick = () => {
+            insertTag(`b`, "", undefined, editorBox);
+        }
+        tools[1].onclick = () => {
+            insertTag(`s`, "", undefined, editorBox);
+        }
+        tools[2].onclick = () => {
+            const selStart = editorBox.selectionStart, selEnd = editorBox.selectionEnd;
+            WindowManager.create((view, colorId) => {
+                colorUtils.getColor(view, "#000", null, (color) => {
+                    WindowManager.remove(colorId);
+                    editorBox.focus();
+                    editorBox.setSelectionRange(selStart, selEnd);
+                    insertTag(`color`, `=${color}`, undefined, editorBox);
+                });
+            }, {
+                size: "small", title: "选择字体颜色", withFooter: {
+                    with: false
+                }
+            });
+        }
+        tools[3].onclick = () => {
+            const selStart = editorBox.selectionStart, selEnd = editorBox.selectionEnd;
+            WindowManager.create((view, colorId) => {
+                colorUtils.getColor(view, "#000", null, (color) => {
+                    WindowManager.remove(colorId);
+                    editorBox.focus();
+                    editorBox.setSelectionRange(selStart, selEnd);
+                    insertTag(`backcolor`, `=${color}`, undefined, editorBox);
+                });
+            }, {
+                size: "small", title: "选择背景颜色", withFooter: {
+                    with: false
+                }
+            });
+        }
+        tools[4].onclick = () => {
             const selStart = editorBox.selectionStart, selEnd = editorBox.selectionEnd;
             WindowManager.create((view) => {
                 view.appendChild(cE({
                     type: "p",
-                    attr: [["style", "text-align:center;font:14px/1 Anodina,sans-serif;color:var(--dark);"]],
-                    innerText: "文字大小(0-7)"
+                    attr: [["style", "text-align:center;font:14px/21px Anodina,sans-serif;color:var(--dark);display:inline-block;width:100px;"]],
+                    innerText: "图片地址"
                 }));
                 view.appendChild(cE({
-                    type: 'select',
-                    attr: [["id", "fontSizeSelector"], ["style", "display:block;width:80%;margin:0 auto;"]],
-                    innerHTML: "<option value='0'>0</option><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option><option value='6'>6</option><option value='7'>7</option>",
+                    type: 'input',
+                    attr: [["type", "url"], ["style", "display:inline-block;width:calc(100% - 200px);"], ["placeholder", "http://www.ditiezu.com/"], ["id", "urlInput"], ["oninput", "document.querySelector('#resultImage').src=this.value"]]
                 }));
+                let resultImage = cE({
+                    type: "img",
+                    attr: [["style", "display:block;width:80%;margin:0 auto;margin-top:16px;"], ["src", ""], ["alt", "insertImage"], ["id", "resultImage"], ["onerror", "this.src=`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Cpath d='M275 175V58c0-9-7-17-17-17H142c-10 0-17 8-17 17v117c0 9 7 16 17 16h116c10 0 17-7 17-16zm-104-46l21 25 29-38 37 50H142l29-37z' fill='%239fa0a0'/%3E%3Ctext transform='translate(65 240)'%3E%3Ctspan x='0' y='0' font-size='18' font-family='sans-serif'%3E无法获取所输入的链接对应的图片%3C/tspan%3E%3Ctspan x='8.5' y='14.4' font-size='12' font-family='Anodina'%3EUnable to get the image with the url entered%3C/tspan%3E%3C/text%3E%3C/svg%3E`"]]
+                });
+                view.appendChild(resultImage);
             }, {
-                size: "small", title: "编辑字体样式", withFooter: {
+                size: "small", title: "插入图片", withFooter: {
                     with: true, onSubmit: () => {
                         editorBox.focus();
                         editorBox.setSelectionRange(selStart, selEnd);
-                        insertTag(`size`, `=${pg.$('#fontSizeSelector')[0].value}`, {}, editorBox);
+                        insertTag(`img`, ``, pg.$('#urlInput')[0].value, editorBox);
                     }, onCancel: () => {
                     }
                 }
             });
-            e.preventDefault();
         }
-        tools[1].onclick = (e) => {
-            WindowManager.create((view, colorId) => {
-                colorUtils.getColor(view, "#000", null, (color) => {
-                    WindowManager.remove(colorId);
-                    insertTag(`color`, `=${color}`, undefined, editor.children[1].children[1]);
-                });
-            }, {size: "small", title: "选择字体颜色"});
-            e.preventDefault();
-        }
-        tools[2].onclick = (e) => {
-            insertTag("s", [], {}, editor.children[1].children[1]);
-            e.preventDefault();
-        }
-        tools[3].onclick = (e) => {
-            insertTag("s", [], {}, editor.children[1].children[1]);
-            e.preventDefault();
-        }
-        tools[4].onclick = (e) => {
-            insertTag("s", [], {}, editor.children[1].children[1]);
-            e.preventDefault();
+        tools[5].onclick = () => {
+            const selStart = editorBox.selectionStart, selEnd = editorBox.selectionEnd;
+            WindowManager.create((view) => {
+                view.appendChild(cE({
+                    type: "p",
+                    attr: [["style", "text-align:center;font:14px/21px Anodina,sans-serif;color:var(--dark);display:inline-block;width:100px;"]],
+                    innerText: "链接地址"
+                }));
+                view.appendChild(cE({
+                    type: 'input',
+                    attr: [["type", "url"], ["style", "display:inline-block;width:calc(100% - 200px);"], ["placeholder", "http://www.ditiezu.com/"], ["id", "urlInput"]]
+                }));
+            }, {
+                size: "small", title: "插入链接", withFooter: {
+                    with: true, onSubmit: () => {
+                        editorBox.focus();
+                        editorBox.setSelectionRange(selStart, selEnd);
+                        insertTag(`url`, `=${pg.$('#urlInput')[0].value}`, undefined, editorBox);
+                    }, onCancel: () => {
+                    }
+                }
+            });
         }
     })();
 
@@ -1268,11 +1309,12 @@
         document.documentElement.style.overflow = "hidden";
         let contentList = cE({
             type: "div",
-            attr: [["class", "pg-dashboard"]]
+            attr: [["class", "pg-dashboard"]], innerHTML: "<div class='pg-content'></div>"
         });
+        contentList = contentList.children[0];
         contentList.appendChild(cE({
             type: "div",
-            innerHTML: `<div class="typeName"><span>通知 Notification</span><div class="icon"></div></div><div class='typeSelector'><div class="choice ${$_GET['isread'] === '1' ? '' : 'active'}" onclick="${$_GET['isread'] === '1' ? "window.location.href='/home.php?mod=space&do=notice'" : ''}">已读提醒</div><div class="choice ${$_GET['isread'] === '1' ? 'active' : ''}"  onclick="${$_GET['isread'] === '1' ? '' : "window.location.href='/home.php?mod=space&do=notice&isread=1'"}">未读提醒</div></div>`
+            innerHTML: `<div class="typeName"><div class="typeNameValue"><span>通知 Notification</span><div class="icon"></div></div></div><div class='typeSelector'><div class="choice ${$_GET['isread'] === '1' ? '' : 'active'}" onclick="${$_GET['isread'] === '1' ? "window.location.href='/home.php?mod=space&do=notice'" : ''}">已读提醒</div><div class="choice ${$_GET['isread'] === '1' ? 'active' : ''}"  onclick="${$_GET['isread'] === '1' ? '' : "window.location.href='/home.php?mod=space&do=notice&isread=1'"}">未读提醒</div></div>`
         }));
         if (document.body.innerHTML.includes("暂时没有新提醒")) contentList.append(cE({
             type: "div",
@@ -1294,7 +1336,7 @@
             wrap.append(notification)
         });
         contentList.append(wrap);
-        document.body.appendChild(contentList);
+        document.body.appendChild(contentList.parentElement);
     })();
 
     else if (pg.$("h1")[0].innerHTML === "Not Found" && pg.$("p")[1].innerHTML === "Additionally, a 404 Not Found\n" +
