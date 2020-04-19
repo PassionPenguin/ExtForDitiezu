@@ -81,7 +81,7 @@
         const start = editor.selectionStart, end = editor.selectionEnd, originalValue = editor.value;
         const leftHand = `${originalValue.substring(0, start)}[${tag + attributes}]`,
             innerValue = `${value.replace ? value.value : (originalValue.substring(start, end) + value.value)}`,
-            rightHand = `[/${tag}]${originalValue.substring(end, originalValue.length - 1)}`;
+            rightHand = `[/${tag}]${originalValue.substring(end, originalValue.length)}`;
         editor.value = leftHand + innerValue + rightHand;
         editor.selectionStart = leftHand.length;
         editor.selectionEnd = leftHand.length + innerValue.length;
