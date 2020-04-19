@@ -87,6 +87,11 @@ pg-switchtoggle[selected="true"] {
 
 body {
     background: var(--sulight);
+    color: var(--dark) !important;
+}
+
+body a.mi {
+    color: var(--theme_d) !important;
 }
 
 select {
