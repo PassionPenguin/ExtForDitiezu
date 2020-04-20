@@ -365,6 +365,10 @@ input {
     margin-top: 64px;
 }
 
+a.y.xi2.op[onclick][href='javascript:;'] {
+    display: none;
+}
+
 .pg_index {
     overflow: hidden;
 }
