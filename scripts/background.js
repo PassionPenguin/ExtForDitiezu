@@ -58,4 +58,4 @@ chrome.webNavigation.onCompleted.addListener(() => {
     url: [{
         hostContains: 'ditiezu.'
     }],
-})
+});

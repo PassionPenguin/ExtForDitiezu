@@ -1382,7 +1382,7 @@
             contentList = contentList.children[0];
             contentList.appendChild(cE({
                 type: "div",
-                innerHTML: `<div class="typeName"><div class="typeNameValue"><span>通知 Notification</span><div class="icon"></div></div></div><div class='typeSelector'><div class="choice ${$_GET['isread'] === '1' ? '' : 'active'}" onclick="${$_GET['isread'] === '1' ? "window.location.href='/home.php?mod=space&do=notice'" : ''}">已读提醒</div><div class="choice ${$_GET['isread'] === '1' ? 'active' : ''}"  onclick="${$_GET['isread'] === '1' ? '' : "window.location.href='/home.php?mod=space&do=notice&isread=1'"}">未读提醒</div></div>`
+                innerHTML: `<div class="typeName"><div class="typeNameValue"><span>通知 Notification</span><div class="icon"></div></div></div><div class='typeSelector'><div class="choice ${$_GET['isread'] === '1' ? '' : 'active'}" onclick="${$_GET['isread'] === '1' ? "window.location.href='/home.php?mod=space&do=notice'" : ''}">未读提醒</div><div class="choice ${$_GET['isread'] === '1' ? 'active' : ''}"  onclick="${$_GET['isread'] === '1' ? '' : "window.location.href='/home.php?mod=space&do=notice&isread=1'"}">已读提醒</div></div>`
             }));
             if (document.body.innerHTML.includes("暂时没有新提醒")) contentList.append(cE({
                 type: "div",
