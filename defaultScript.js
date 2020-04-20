@@ -1,16 +1,17 @@
 (() => {
-    if (document.querySelectorAll(".pg-header").length > 0) {
-        return; // already loaded.
-    }
-    const pg = {
+    let pg = {
         $: (sel) => {
             return document.querySelectorAll(sel);
         }
     }
-    const Int = val => {
+    if (pg.$("[class^='pg-'],[id^='pg-']").length > 0)
+        [...pg.$("[class^='pg-'],[id^='pg-']")].forEach(i => {
+            i.parentElement.removeChild(i)
+        });
+    let Int = val => {
         return parseInt(val)
     };
-    const cE = data => {
+    let cE = data => {
         if (data === undefined) data = {
             type: 'div',
             attr: [],
@@ -29,7 +30,7 @@
         };
         return e;
     };
-    const xhr = (mod, url, content, returnFunc) => {
+    let xhr = (mod, url, content, returnFunc) => {
         let xmlHttpRequest = new XMLHttpRequest();
         xmlHttpRequest.open(mod.toUpperCase(), url);
         xmlHttpRequest.onreadystatechange = function () {
@@ -45,22 +46,18 @@
             return this[this.length - 1];
         }
     }
-    Element.prototype.cE = (el) => {
-        this.appendChild(el)
-        return this;
-    }
-    const isUndefined = (variable) => {
+    let isUndefined = (variable) => {
         return typeof variable === 'undefined';
     }
-    const extUrl = `chrome-extension://${extId}`;
-    const uid = Int(document.head.innerText.substring(document.head.innerText.indexOf('discuz_uid') + 14, document.head.innerText.indexOf("'", document.head.innerText.indexOf('discuz_uid') + 14)));
+    let extUrl = `chrome-extension://${extId}`;
+    let uid = Int(document.head.innerText.substring(document.head.innerText.indexOf('discuz_uid') + 14, document.head.innerText.indexOf("'", document.head.innerText.indexOf('discuz_uid') + 14)));
     let userImageUrl;
-    const $_GET = {};
+    let $_GET = {};
     if (window.location.search !== "")
         window.location.search.substr(1).split("&").forEach(i => {
             eval(`$_GET.${decodeURIComponent(i.split("=")[0])}='${decodeURIComponent(i.split("=")[1])}'`);
         });
-    const insertTag = (tag, attributes, value, editor) => {
+    let insertTag = (tag, attributes, value, editor) => {
         /**
          * Insert BB-Code => editor
          * @param {string} tag: the tagName need to be inserted
@@ -79,22 +76,19 @@
         value = isUndefined(value) ? {replace: false, value: ""} : value;
         value.replace = isUndefined(value.replace) ? false : value.replace;
         if (isUndefined(editor)) return;
-        const start = editor.selectionStart, end = editor.selectionEnd, originalValue = editor.value;
-        const leftHand = `${originalValue.substring(0, start)}[${tag + attributes}]`,
+        let start = editor.selectionStart, end = editor.selectionEnd, originalValue = editor.value;
+        let leftHand = `${originalValue.substring(0, start)}[${tag + attributes}]`,
             innerValue = `${value.replace ? value.value : (originalValue.substring(start, end) + value.value)}`,
             rightHand = `[/${tag}]${originalValue.substring(end, originalValue.length)}`;
         editor.value = leftHand + innerValue + rightHand;
         editor.selectionStart = leftHand.length;
         editor.selectionEnd = leftHand.length + innerValue.length;
     }
-    const getStyle = (el, styleProp) => {
-        return getComputedStyle(el, null)[styleProp];
-    }
     /**
      * ColorPalette
      * @type {{{name: string, colors: string[][]}[]}}
      */
-    const colorPalette = [
+    let colorPalette = [
         {
             // REF: Guangzhou MTR Official Database
             name: "Guangzhou",
@@ -322,7 +316,7 @@
             ]
         }
     ];
-    const colorUtils = {
+    let colorUtils = {
         RGBtoHSV: (rgb) => {
             let r = rgb.r, g = rgb.g, b = rgb.b;
 
@@ -525,7 +519,7 @@
                                 onclick: () => {
                                     let HSV = colorUtils.HEXtoHSV(color[0]);
                                     HueCursor.style.left = (HSV.h * 240 + 7.5) + "px";
-                                    const rgb = colorUtils.HSVToRGB({
+                                    let rgb = colorUtils.HSVToRGB({
                                             h: HSV.h, s: 1, v: 1
                                         }
                                     );
@@ -600,10 +594,10 @@
                 attr: [["class", "button"], ["style", "width:fit-content;float:right;display:inline-block;line-height:30px!important;color:var(--theme);"]],
                 innerText: "确认",
                 onclick: () => {
-                    const hue = (parseFloat(HueCursor.style.left) - 7.5) / 240;
-                    const saturation = (parseFloat(BaSCursor.style.left) - 5) / 320;
-                    const brightness = (180 - (parseFloat(BaSCursor.style.top) - 5)) / 180;
-                    const rgb = colorUtils.HSVToRGB({
+                    let hue = (parseFloat(HueCursor.style.left) - 7.5) / 240;
+                    let saturation = (parseFloat(BaSCursor.style.left) - 5) / 320;
+                    let brightness = (180 - (parseFloat(BaSCursor.style.top) - 5)) / 180;
+                    let rgb = colorUtils.HSVToRGB({
                             h: hue, s: saturation, v: brightness
                         }
                     );
@@ -669,7 +663,7 @@
                 };
             }
 
-            const BaSHandler = (e) => {
+            let BaSHandler = (e) => {
                 let event = {};
                 if (e.offsetX >= 320) event.offsetX = 320;
                 else if (e.offsetX < 10) event.offsetX = 10;
@@ -682,13 +676,13 @@
                 render();
             };
 
-            const HueHandler = (e) => {
+            let HueHandler = (e) => {
                 let event = {};
                 if (e.offsetX - 240 >= 0) event.offsetX = 240;
                 else if (e.offsetX < 0) event.offsetX = 0;
                 else event.offsetX = e.offsetX + 7.5;
                 HueCursor.style.left = event.offsetX + "px";
-                const rgb = colorUtils.HSVToRGB({
+                let rgb = colorUtils.HSVToRGB({
                         h: (parseFloat(HueCursor.style.left) - 7.5) / 240, s: 1, v: 1
                     }
                 );
@@ -696,7 +690,7 @@
                 render();
             };
 
-            const AlphaHandler = (e) => {
+            let AlphaHandler = (e) => {
                 let event = {};
                 if (e.offsetX - 240 >= 0) event.offsetX = 240;
                 else if (e.offsetX < 0) event.offsetX = 0;
@@ -705,12 +699,12 @@
                 render();
             };
 
-            const render = () => {
-                const hue = (parseFloat(HueCursor.style.left) - 7.5) / 240;
-                const saturation = (parseFloat(BaSCursor.style.left) - 5) / 320;
-                const brightness = (180 - (parseFloat(BaSCursor.style.top) - 5)) / 180;
-                const alpha = (parseFloat(AlphaCursor.style.left) - 7.5) / 240;
-                const rgb = colorUtils.HSVToRGB({
+            let render = () => {
+                let hue = (parseFloat(HueCursor.style.left) - 7.5) / 240;
+                let saturation = (parseFloat(BaSCursor.style.left) - 5) / 320;
+                let brightness = (180 - (parseFloat(BaSCursor.style.top) - 5)) / 180;
+                let alpha = (parseFloat(AlphaCursor.style.left) - 7.5) / 240;
+                let rgb = colorUtils.HSVToRGB({
                         h: hue, s: saturation, v: brightness
                     }
                 );
@@ -718,12 +712,12 @@
                 input.value = "#" + colorUtils.RGBtoHEX(rgb);
             };
 
-            const writer = (HSV) => {
-                const bgRgb = colorUtils.HSVToRGB({
+            let writer = (HSV) => {
+                let bgRgb = colorUtils.HSVToRGB({
                         h: HSV.h, s: 1, v: 1
                     }
                 );
-                const rgb = colorUtils.HSVToRGB({
+                let rgb = colorUtils.HSVToRGB({
                         h: HSV.h, s: HSV.s, v: HSV.v
                     }
                 );
@@ -738,7 +732,7 @@
             selectPalette.children[0].click();
         }
     };
-    const WindowManager = {
+    let WindowManager = {
         query: [],
         create: (returnFunc, opt) => {
             opt = opt || {};
@@ -847,574 +841,570 @@
             WindowManager.query.filter(i => i !== channelId);
         }
     };
-
-    xhr("get", `/uc_server/avatar.php?uid=${uid}`, "", (res) => {
-        userImageUrl = res.responseURL;
-
-// Basic Comp
-        (() => {
-            let news = pg.$("#myprompt")[0];
-            document.head.appendChild(cE({
-                type: "link",
-                attr: [["rel", "stylesheet"], ["href", `${extUrl}/defaultStyle.css`]]
-            }));
-            let topBar = cE({
-                type: "div",
-                attr: [["class", "pg-header"]],
-                innerHTML: `<img src="${extUrl}/images/brand.svg" alt="Brand" class="brand"><div class="navg"><a href="/" class="mi" role="button">home</a><a href="javascript:void(0)" class="mi" role="button">category</a></div><input class="searchBar" type="text" /><div class="account"><a href="/home.php?mod=space&do=notice" class="mi" role="button" style="color:${news !== undefined ? news.classList.contains('new') ? 'var(--theme_d)' : 'var(--theme)' : 'var(--theme)'}">notifications${news !== undefined ? news.classList.contains('new') ? '_active' : '' : '_none'}</a><a href="/home.php?mod=space&do=pm" class="mi" role="button">message</a><div class="avatar aboutAccont"></div></div>`
-            });
-            topBar.children[1].children[1].onclick = () => {
-                WindowManager.create((view) => {
-                    const blog = [[["7", "北京区"], ["39", "武汉区"], ["23", "广州区"], ["46", "城际高铁"], ["21", "站前广场"], ["53", "成都区"], ["24", "深圳区"], ["22", "南京区"], ["38", "重庆区"], ["6", "天津区"], ["8", "上海区"], ["64", "郑州区"], ["54", "西安区"], ["51", "苏州区"], ["66", "青岛区"], ["52", "杭州区"], ["70", "昆明区"], ["50", "沈阳区"], ["18", "意见建议"], ["37", "综合区"]],
-                        [["23", "广州区"], ["21", "站前广场"], ["7", "北京区"], ["39", "武汉区"], ["46", "城际高铁"], ["64", "郑州区"], ["53", "成都区"], ["24", "深圳区"], ["16", "都市风情"], ["38", "重庆区"], ["52", "杭州区"], ["37", "综合区"], ["15", "地铁美食"], ["54", "西安区"], ["22", "南京区"], ["56", "佛山区"], ["18", "意见建议"], ["6", "天津区"], ["51", "苏州区"], ["66", "青岛区"]],
-                        [["79", "澳门区"], ["7", "北京区"], ["48", "常州区"], ["53", "成都区"], ["46", "城际高铁"], ["38", "重庆区"], ["41", "大连区"], ["31", "地铁地产"], ["150", "地铁的真相"], ["15", "地铁美食"], ["146", "地铁族网刊"], ["75", "东莞区"], ["16", "都市风情"], ["152", "都市快轨交通"], ["56", "佛山区"], ["72", "福州区"], ["23", "广州区"], ["33", "轨道收藏"], ["43", "轨道知识"], ["145", "轨交游戏"], ["76", "贵阳区"], ["55", "哈尔滨区"], ["47", "海外区"], ["52", "杭州区"], ["74", "合肥区"], ["151", "呼和浩特区"], ["45", "机车车辆"], ["148", "济南区"], ["60", "交易市场"], ["70", "昆明区"], ["78", "兰州区"], ["71", "南昌区"], ["22", "南京区"], ["73", "南宁区"], ["65", "宁波区"], ["66", "青岛区"], ["77", "厦门区"], ["8", "上海区"], ["24", "深圳区"], ["50", "沈阳区"], ["140", "石家庄区"], ["51", "苏州区"], ["36", "台湾区"], ["6", "天津区"], ["142", "温州区"], ["143", "乌鲁木齐区"], ["68", "无锡区"], ["39", "武汉区"], ["54", "西安区"], ["28", "香港区"], ["144", "徐州区"], ["18", "意见建议"], ["21", "站前广场"], ["17", "站务公告"], ["40", "长春区"], ["67", "长沙区"], ["64", "郑州区"], ["37", "综合区"]]];
-                    let categoryInner = cE({
-                        type: "div",
-                        attr: [["class", "pg-content"], ["style", "padding:0;margin:0;"]],
-                        innerHTML: `<div><div class="typeName"><div class="typeNameValue"><span>分区 Category</span><div class="icon"></div></div></div><div class='typeSelector'><div class="choice active">总发帖序</div><div class="choice">平均热度序</div><div class="choice">拼音序</div></div></div><div id="pg-selectCategory"></div>`
-                    });
-                    [...categoryInner.children[0].children[1].children].forEach((e, index) => {
-                        e.onclick = () => {
-                            loadContent(index);
-                        }
-                    });
-                    const loadContent = (id) => {
-                        categoryInner.querySelector('.active').classList.remove("active");
-                        categoryInner.children[0].children[1].children[id].classList.add("active");
-                        if (categoryInner.children[1].children.length > 0)
-                            categoryInner.children[1].removeChild(categoryInner.children[1].children[0]);
-                        let result = cE({type: "div"});
-                        blog[id].forEach(e => {
-                            result.appendChild(cE({
-                                type: "div",
-                                attr: [["role", "button"], ["class", "button"], ["style", "    padding-left:12px;width:calc(100% - 24px);color:var(--dark);"]],
-                                onclick: () => {
-                                    window.location.href = `/forum-${e[0]}-1.html`;
-                                },
-                                innerText: e[1]
-                            }))
-                        });
-                        categoryInner.children[1].appendChild(result);
-                    };
-                    loadContent(0);
-                    view.appendChild(categoryInner);
-                }, {withFooter: {with: false}, size: "small", title: "选择分区"});
-            };
-            topBar.children[3].appendChild(cE({
-                type: "img",
-                attr: [["src", userImageUrl], ["alt", "avatar"]],
-                onclick: () => {
-                    xhr("get", "/home.php?mod=spacecp&ac=credit&showcredit=1&inajax=1", "", (response) => {
-                        let resContent, result;
-                        if (uid !== 0) {
-                            resContent = new DOMParser().parseFromString(response.response, "text/xml");
-                            result = cE({type: "div", innerHTML: resContent.children[0].childNodes[0].data});
-                            try {
-                                result.children[0].appendChild(cE({
-                                    type: "li",
-                                    innerText: pg.$("#extcreditmenu")[0].innerText
-                                }));
-                                result.children[0].appendChild(cE({
-                                    type: "li",
-                                    innerText: pg.$("#g_upmine")[0].innerText
-                                }));
-                            } catch (e) {
-                            }
-                        }
-
-                        let aboutMeBlank = cE({
+    let render = () => {
+        xhr("get", `/uc_server/avatar.php?uid=${uid}`, "", (res) => {
+            userImageUrl = res.responseURL;
+            // Basic Comp
+            (() => {
+                let news = pg.$("#myprompt")[0];
+                document.head.appendChild(cE({
+                    type: "link",
+                    attr: [["rel", "stylesheet"], ["href", `${extUrl}/defaultStyle.css`]]
+                }));
+                let topBar = cE({
+                    type: "div",
+                    attr: [["class", "pg-header"]],
+                    innerHTML: `<img src="${extUrl}/images/brand.svg" alt="Brand" class="brand"><div class="navg"><a href="/" class="mi" role="button">home</a><a href="javascript:void(0)" class="mi" role="button">category</a></div><input class="searchBar" type="text" /><div class="account"><a href="/home.php?mod=space&do=notice" class="mi" role="button" style="color:${news !== undefined ? news.classList.contains('new') ? 'var(--theme_d)' : 'var(--theme)' : 'var(--theme)'}">notifications${news !== undefined ? news.classList.contains('new') ? '_active' : '' : '_none'}</a><a href="/home.php?mod=space&do=pm" class="mi" role="button">message</a><div class="avatar aboutAccont"></div></div>`
+                });
+                topBar.children[1].children[1].onclick = () => {
+                    WindowManager.create((view) => {
+                        let blog = [[["7", "北京区"], ["39", "武汉区"], ["23", "广州区"], ["46", "城际高铁"], ["21", "站前广场"], ["53", "成都区"], ["24", "深圳区"], ["22", "南京区"], ["38", "重庆区"], ["6", "天津区"], ["8", "上海区"], ["64", "郑州区"], ["54", "西安区"], ["51", "苏州区"], ["66", "青岛区"], ["52", "杭州区"], ["70", "昆明区"], ["50", "沈阳区"], ["18", "意见建议"], ["37", "综合区"]],
+                            [["23", "广州区"], ["21", "站前广场"], ["7", "北京区"], ["39", "武汉区"], ["46", "城际高铁"], ["64", "郑州区"], ["53", "成都区"], ["24", "深圳区"], ["16", "都市风情"], ["38", "重庆区"], ["52", "杭州区"], ["37", "综合区"], ["15", "地铁美食"], ["54", "西安区"], ["22", "南京区"], ["56", "佛山区"], ["18", "意见建议"], ["6", "天津区"], ["51", "苏州区"], ["66", "青岛区"]],
+                            [["79", "澳门区"], ["7", "北京区"], ["48", "常州区"], ["53", "成都区"], ["46", "城际高铁"], ["38", "重庆区"], ["41", "大连区"], ["31", "地铁地产"], ["150", "地铁的真相"], ["15", "地铁美食"], ["146", "地铁族网刊"], ["75", "东莞区"], ["16", "都市风情"], ["152", "都市快轨交通"], ["56", "佛山区"], ["72", "福州区"], ["23", "广州区"], ["33", "轨道收藏"], ["43", "轨道知识"], ["145", "轨交游戏"], ["76", "贵阳区"], ["55", "哈尔滨区"], ["47", "海外区"], ["52", "杭州区"], ["74", "合肥区"], ["151", "呼和浩特区"], ["45", "机车车辆"], ["148", "济南区"], ["60", "交易市场"], ["70", "昆明区"], ["78", "兰州区"], ["71", "南昌区"], ["22", "南京区"], ["73", "南宁区"], ["65", "宁波区"], ["66", "青岛区"], ["77", "厦门区"], ["8", "上海区"], ["24", "深圳区"], ["50", "沈阳区"], ["140", "石家庄区"], ["51", "苏州区"], ["36", "台湾区"], ["6", "天津区"], ["142", "温州区"], ["143", "乌鲁木齐区"], ["68", "无锡区"], ["39", "武汉区"], ["54", "西安区"], ["28", "香港区"], ["144", "徐州区"], ["18", "意见建议"], ["21", "站前广场"], ["17", "站务公告"], ["40", "长春区"], ["67", "长沙区"], ["64", "郑州区"], ["37", "综合区"]]];
+                        let categoryInner = cE({
                             type: "div",
-                            attr: [["class", "pg-aboutMeBlank"]],
-                            innerHTML: `<img src="${userImageUrl.replace(/middle/, "big")}" onclick="window.location.href='/home.php?mod=space'" style="cursor:pointer;" /><div class="userName">${uid === 0 ? "未登录" : pg.$("#um strong>a,h2.mbn a")[0].innerText}</div><hr><button class="button transparent" onclick="window.location.href='${uid === 0 ? '/member.php?mod=regditiezu.php' : [...document.querySelectorAll("a")].filter(i => i.innerText === '退出')[0].href}'">${uid === 0 ? "登录" : "登出"}</button>${uid === 0 ? "<div style='margin-bottom:20px;'></div>" : ("<hr>" + result.outerHTML)}`,
-                            onclick: (event) => {
-                                event.stopPropagation();
+                            attr: [["class", "pg-content"], ["style", "padding:0;margin:0;"]],
+                            innerHTML: `<div><div class="typeName"><div class="typeNameValue"><span>分区 Category</span><div class="icon"></div></div></div><div class='typeSelector'><div class="choice active">总发帖序</div><div class="choice">平均热度序</div><div class="choice">拼音序</div></div></div><div id="pg-selectCategory"></div>`
+                        });
+                        [...categoryInner.children[0].children[1].children].forEach((e, index) => {
+                            e.onclick = () => {
+                                loadContent(index);
                             }
                         });
-                        window.addEventListener("click", () => {
-                            document.body.removeChild(aboutMeBlank);
-                        }, {once: true});
-                        document.body.appendChild(aboutMeBlank);
-                    });
-                }
-            }));
-            document.body.appendChild(topBar);
-            [...pg.$("img[alt='avatar']")].forEach(e => {
-                e.onerror = (e) => {
-                    e.target.src = 'uc_server/images/noavatar_small.gif'
-                }
-            })
-        })();
-
-        if (document.body.classList.contains("pg_index")) (() => {
-            document.documentElement.style.overflow = "hidden";
-            let contentList = cE({
-                type: "div",
-                attr: [["class", "pg-dashboard"]],
-                innerHTML: "<div class='container'></div>"
-            });
-            {
-                let focus_top = pg.$("#portal_block_58_content")[0].children;
-                contentList.children[0].appendChild(cE({
-                    type: "div",
-                    attr: [["id", "pg-focus-topWrap"]],
-                    innerHTML: "<h2>" + focus_top[0].children[0].innerHTML + "</h2><p>" + focus_top[1].innerHTML + "</p>",
+                        let loadContent = (id) => {
+                            categoryInner.querySelector('.active').classList.remove("active");
+                            categoryInner.children[0].children[1].children[id].classList.add("active");
+                            if (categoryInner.children[1].children.length > 0)
+                                categoryInner.children[1].removeChild(categoryInner.children[1].children[0]);
+                            let result = cE({type: "div"});
+                            blog[id].forEach(e => {
+                                result.appendChild(cE({
+                                    type: "div",
+                                    attr: [["role", "button"], ["class", "button"], ["style", "    padding-left:12px;width:calc(100% - 24px);color:var(--dark);"]],
+                                    onclick: () => {
+                                        window.location.href = `/forum-${e[0]}-1.html`;
+                                    },
+                                    innerText: e[1]
+                                }))
+                            });
+                            categoryInner.children[1].appendChild(result);
+                        };
+                        loadContent(0);
+                        view.appendChild(categoryInner);
+                    }, {withFooter: {with: false}, size: "small", title: "选择分区"});
+                };
+                topBar.children[3].appendChild(cE({
+                    type: "img",
+                    attr: [["src", userImageUrl], ["alt", "avatar"]],
                     onclick: () => {
-                        window.location.href = focus_top[0].children[0].href;
+                        xhr("get", "/home.php?mod=spacecp&ac=credit&showcredit=1&inajax=1", "", (response) => {
+                            let resContent, result;
+                            if (uid !== 0) {
+                                resContent = new DOMParser().parseFromString(response.response, "text/xml");
+                                result = cE({type: "div", innerHTML: resContent.children[0].childNodes[0].data});
+                                try {
+                                    result.children[0].appendChild(cE({
+                                        type: "li",
+                                        innerText: pg.$("#extcreditmenu")[0].innerText
+                                    }));
+                                    result.children[0].appendChild(cE({
+                                        type: "li",
+                                        innerText: pg.$("#g_upmine")[0].innerText
+                                    }));
+                                } catch (e) {
+                                }
+                            }
+
+                            let aboutMeBlank = cE({
+                                type: "div",
+                                attr: [["class", "pg-aboutMeBlank"]],
+                                innerHTML: `<img src="${userImageUrl.replace(/middle/, "big")}" onclick="window.location.href='/home.php?mod=space'" style="cursor:pointer;" /><div class="userName">${uid === 0 ? "未登录" : pg.$("#um strong>a,h2.mbn a")[0].innerText}</div><hr><button class="button transparent" onclick="window.location.href='${uid === 0 ? '/member.php?mod=regditiezu.php' : [...document.querySelectorAll("a")].filter(i => i.innerText === '退出')[0].href}'">${uid === 0 ? "登录" : "登出"}</button>${uid === 0 ? "<div style='margin-bottom:20px;'></div>" : ("<hr>" + result.outerHTML)}`,
+                                onclick: (event) => {
+                                    event.stopPropagation();
+                                }
+                            });
+                            window.addEventListener("click", () => {
+                                document.body.removeChild(aboutMeBlank);
+                            }, {once: true});
+                            document.body.appendChild(aboutMeBlank);
+                        });
                     }
                 }));
-                let focus_other_wrap = cE({type: "div", attr: [["id", "pg-focus-otherWrap"]]});
-                [...pg.$(".comiis_onemiddleulone.clearfix li")].map(i => i.children).forEach(e => {
-                    focus_other_wrap.append(cE({
+                document.body.appendChild(topBar);
+                [...pg.$("img[alt='avatar']")].forEach(e => {
+                    e.onerror = (e) => {
+                        e.target.src = 'uc_server/images/noavatar_small.gif'
+                    }
+                });
+            })();
+
+            if (document.body.classList.contains("pg_index")) (() => {
+                document.documentElement.style.overflow = "hidden";
+                let contentList = cE({
+                    type: "div",
+                    attr: [["class", "pg-dashboard"]],
+                    innerHTML: "<div class='container'></div>"
+                });
+                {
+                    let focus_top = pg.$("#portal_block_58_content")[0].children;
+                    contentList.children[0].appendChild(cE({
                         type: "div",
-                        attr: [["class", "pg-focus-otherItem"]],
-                        innerHTML: "<span class='pg-focus-otherItem-category'>" + e[1].innerHTML + "</span><span class='seperator'>|</span><span class='pg-focus-otherItem-content'>" + e[2].innerHTML + "</span><span class='pg-focus-otherItem-author'>" + e[0].children[0].innerHTML + "</span>",
+                        attr: [["id", "pg-focus-topWrap"]],
+                        innerHTML: "<h2>" + focus_top[0].children[0].innerHTML + "</h2><p>" + focus_top[1].innerHTML + "</p>",
                         onclick: () => {
-                            window.location.href = e[2].href;
+                            window.location.href = focus_top[0].children[0].href;
                         }
                     }));
-                    contentList.children[0].append(focus_other_wrap);
-                });
-            } // Today's Focus
-            {
-                try {
-                    xhr("get", "/forum.php?mod=rss", "", (response) => {
-                        let feeds = cE({type: "div", attr: [["id", "pg-indexFeeds"], ["class", "active"]]});
-                        const XMLParser = (feeds, res) => {
-                            let items = [...res.children[0].children[0].children].filter(i => i.tagName === "item").map(i => i.children);
-                            items.forEach(e => {
-                                let feed = cE({type: "div", attr: [["class", "pg-feed"]]});
-                                e = [...e];
-                                feed.onclick = () => {
-                                    window.location.href = e.filter(i => i.tagName === "link")[0].innerHTML.replace(/&amp;/, "&");
-                                };
-                                feed.append(cE({
-                                    type: "p",
-                                    innerText: e.filter(i => i.tagName === "title")[0].innerHTML,
-                                    attr: [["class", "pg-feed-title"]]
-                                }));
-                                let feedContent = cE({type: "div", attr: [["class", "pg-feedContent"]]});
-                                let description = e.filter(i => i.tagName === "description")[0].innerHTML;
-                                feedContent.append(cE({
-                                    type: "p",
-                                    innerText: description.substr(9
-                                        , description.length - 12).replace(/\n/ig, " ").replace(/ \s\s\s/ig, "\n").replace(/\n\n/, "\n"), /* Ignore too many breaks */
-                                    attr: [["class", "pg-feed-description"]]
-                                }));
-                                feed.append(feedContent);
-                                let enclosure = e.filter(i => i.tagName === "enclosure");
-                                if (enclosure.length !== 0 && description.substr(9
-                                    , description.length - 12).replace(/\n/ig, " ").replace(/ \s\s\s/ig, "\n").replace(/\n\n/, "\n") !== "")
+                    let focus_other_wrap = cE({type: "div", attr: [["id", "pg-focus-otherWrap"]]});
+                    [...pg.$(".comiis_onemiddleulone.clearfix li")].map(i => i.children).forEach(e => {
+                        focus_other_wrap.append(cE({
+                            type: "div",
+                            attr: [["class", "pg-focus-otherItem"]],
+                            innerHTML: "<span class='pg-focus-otherItem-category'>" + e[1].innerHTML + "</span><span class='seperator'>|</span><span class='pg-focus-otherItem-content'>" + e[2].innerHTML + "</span><span class='pg-focus-otherItem-author'>" + e[0].children[0].innerHTML + "</span>",
+                            onclick: () => {
+                                window.location.href = e[2].href;
+                            }
+                        }));
+                        contentList.children[0].append(focus_other_wrap);
+                    });
+                } // Today's Focus
+                {
+                    try {
+                        xhr("get", "/forum.php?mod=rss", "", (response) => {
+                            let feeds = cE({type: "div", attr: [["id", "pg-indexFeeds"], ["class", "active"]]});
+                            let XMLParser = (feeds, res) => {
+                                let items = [...res.children[0].children[0].children].filter(i => i.tagName === "item").map(i => i.children);
+                                items.forEach(e => {
+                                    let feed = cE({type: "div", attr: [["class", "pg-feed"]]});
+                                    e = [...e];
+                                    feed.onclick = () => {
+                                        window.location.href = e.filter(i => i.tagName === "link")[0].innerHTML.replace(/&amp;/, "&");
+                                    };
                                     feed.append(cE({
-                                        type: "div",
-                                        attr: [["class", "pg-feed-enclosure"], ["style", "background-image:url(\"" + enclosure[0].getAttribute("url") + "\")"]]
+                                        type: "p",
+                                        innerText: e.filter(i => i.tagName === "title")[0].innerHTML,
+                                        attr: [["class", "pg-feed-title"]]
                                     }));
-                                else if (description.substr(9
-                                    , description.length - 12).replace(/\n/ig, " ").replace(/ \s\s\s/ig, "\n").replace(/\n\n/, "\n") === "")
-                                    feed.removeChild(feedContent);
-                                else
-                                    feedContent.classList.add("no-image");
-                                feed.append(cE({
-                                    type: "p",
-                                    innerText: e.filter(i => i.tagName === "author")[0].innerHTML + " - " + e.filter(i => i.tagName === "category")[0].innerHTML + " - " + new Date(e.filter(i => i.tagName === "pubDate")[0].innerHTML).toLocaleString("zh-CN", {timeZone: "Asia/Hong_Kong"}),
-                                    attr: [["class", "pg-feed-metaInfo"]]
-                                }));
-                                feeds.append(feed);
-                            });
-                        };
-                        XMLParser(feeds, response.responseXML);
-                        contentList.children[0].append(feeds);
-                    });
-                } catch (e) {
-                    console.debug(`Error: ${e}`);
-                }
-            } // RSS Feeds
-            document.body.appendChild(contentList);
-        })();
+                                    let feedContent = cE({type: "div", attr: [["class", "pg-feedContent"]]});
+                                    let description = e.filter(i => i.tagName === "description")[0].innerHTML;
+                                    feedContent.append(cE({
+                                        type: "p",
+                                        innerText: description.substr(9
+                                            , description.length - 12).replace(/\n/ig, " ").replace(/ \s\s\s/ig, "\n").replace(/\n\n/, "\n"), /* Ignore too many breaks */
+                                        attr: [["class", "pg-feed-description"]]
+                                    }));
+                                    feed.append(feedContent);
+                                    let enclosure = e.filter(i => i.tagName === "enclosure");
+                                    if (enclosure.length !== 0 && description.substr(9
+                                        , description.length - 12).replace(/\n/ig, " ").replace(/ \s\s\s/ig, "\n").replace(/\n\n/, "\n") !== "")
+                                        feed.append(cE({
+                                            type: "div",
+                                            attr: [["class", "pg-feed-enclosure"], ["style", "background-image:url(\"" + enclosure[0].getAttribute("url") + "\")"]]
+                                        }));
+                                    else if (description.substr(9
+                                        , description.length - 12).replace(/\n/ig, " ").replace(/ \s\s\s/ig, "\n").replace(/\n\n/, "\n") === "")
+                                        feed.removeChild(feedContent);
+                                    else
+                                        feedContent.classList.add("no-image");
+                                    feed.append(cE({
+                                        type: "p",
+                                        innerText: e.filter(i => i.tagName === "author")[0].innerHTML + " - " + e.filter(i => i.tagName === "category")[0].innerHTML + " - " + new Date(e.filter(i => i.tagName === "pubDate")[0].innerHTML).toLocaleString("zh-CN", {timeZone: "Asia/Hong_Kong"}),
+                                        attr: [["class", "pg-feed-metaInfo"]]
+                                    }));
+                                    feeds.append(feed);
+                                });
+                            };
+                            XMLParser(feeds, response.responseXML);
+                            contentList.children[0].append(feeds);
+                        });
+                    } catch (e) {
+                        console.debug(`Error: ${e}`);
+                    }
+                } // RSS Feeds
+                document.body.appendChild(contentList);
+            })();
 
-        else if (document.body.classList.contains("pg_viewthread")) (() => {
-            eval(pg.$("#wp script")[0].innerText);
-            document.documentElement.style.overflow = "hidden";
-            if (pg.$("#pgt .pg>*").length !== 0) {
-                window.curPage = Int([...pg.$("#pgt .pg>*")].filter(i => i.tagName === "STRONG")[0].innerHTML);
-                window.lastPage = [...pg.$("#pgt .pg>*:not(.nxt)")].last().innerHTML;
-                lastPage = Int(lastPage.includes("...") ? lastPage.substr(4) : lastPage)
-            } else {
-                window.curPage = 1;
-                window.lastPage = 1
-            }
-            let contentList = cE({
-                type: "div",
-                attr: [["class", "pg-dashboard"]]
-            });
-            document.body.appendChild(contentList);
-            let threadPost;
-            threadPost = [...pg.$("div[id^='post_']>table[id^='pid']")].map((i, index) => [i.children[0].children, index]);
-            let threadWrap = cE({type: "div", attr: [["class", "pg-threadWrap"]]});
-
-            threadWrap.appendChild(cE({
-                type: "div",
-                attr: [["class", "pg-threadSubject"]],
-                innerHTML: [...pg.$("h1 :not(:last-child)")].map(i => i.outerHTML).join("").replace(/thread_subject/, "pg_subject")
-            }));
-            threadPost.forEach(e => {
-                let c = e[0];
-                let id = e[1];
-                let thread = cE({type: "div", attr: [["class", "pg-threadPost"]]});
-                let authorName = pg.$(".authi .xw1")[id].innerHTML;
-                let ThreadPostInfo = cE({type: "p", attr: [["class", "pg-threadPostMeta"]]});
-                let postInfo = cE({type: "p", attr: [["class", "pg-threadPostInfo"]]});
-                try {
-                    let avatarLevel = [...[...c][0].children[0].children].filter(i => i.tagName === "DIV").filter(i => i.classList.value === "")[0].children;
-                    let avatar = cE({
-                        type: "img",
-                        attr: [["src", avatarLevel[0].children[0].children[0].src], ["class", "pg-threadAuthorAvatar"]]
-                    });
-                    let author = cE({
-                        type: "p",
-                        innerText: authorName,
-                        attr: [["class", "pg-threadAuthorName"]]
-                    });
-                    let authorLevel = cE({
-                        type: "p",
-                        innerText: avatarLevel[1].children[0].children[0].innerHTML,
-                        attr: [["class", "pg-threadAuthorLevel"]]
-                    });
-                    let authorInfo = cE({type: "div", attr: [["class", "pg-threadAuthorInfo"]]});
-                    authorInfo.append(avatar);
-                    let UsrInfoBox = cE({type: "p", attr: [["class", "pg-threadAuthorInfo"]]});
-                    UsrInfoBox.append(author);
-                    UsrInfoBox.append(authorLevel);
-                    thread.append(authorInfo);
-                    ThreadPostInfo.append(UsrInfoBox)
-                } catch (e) {
+            else if (document.body.classList.contains("pg_viewthread")) (() => {
+                eval(pg.$("#wp script")[0].innerText);
+                document.documentElement.style.overflow = "hidden";
+                if (pg.$("#pgt .pg>*").length !== 0) {
+                    window.curPage = Int([...pg.$("#pgt .pg>*")].filter(i => i.tagName === "STRONG")[0].innerHTML);
+                    window.lastPage = [...pg.$("#pgt .pg>*:not(.nxt)")].last().innerHTML;
+                    lastPage = Int(lastPage.includes("...") ? lastPage.substr(4) : lastPage)
+                } else {
+                    window.curPage = 1;
+                    window.lastPage = 1
                 }
-                let threadFloor = (curPage - 1) * 15 + id + 1;
-                let threadPostTime = pg.$(".authi em")[id].innerText;
-                postInfo.append(cE({type: "span", innerText: "第" + threadFloor + "楼"}));
-                postInfo.append(cE({type: "span", innerHTML: "发表于" + threadPostTime}));
-                ThreadPostInfo.append(postInfo);
-                thread.append(ThreadPostInfo);
-                let pid = [...pg.$("#ct.wp>#postlist>div[id^='post_']")].map(i => i.id.substr(5))[id];
-                thread.append(cE({
+                let contentList = cE({
                     type: "div",
-                    attr: [["class", "postThreadContent"]],
-                    innerHTML: e[0][0].children[1].children[1].innerHTML.replace(/src="*".+zoomfile="/ig, "src=\"") + e[0][1].innerHTML
+                    attr: [["class", "pg-dashboard"]]
+                });
+                document.body.appendChild(contentList);
+                let threadPost;
+                threadPost = [...pg.$("div[id^='post_']>table[id^='pid']")].map((i, index) => [i.children[0].children, index]);
+                let threadWrap = cE({type: "div", attr: [["class", "pg-threadWrap"]]});
+
+                threadWrap.appendChild(cE({
+                    type: "div",
+                    attr: [["class", "pg-threadSubject"]],
+                    innerHTML: [...pg.$("h1 :not(:last-child)")].map(i => i.outerHTML).join("").replace(/thread_subject/, "pg_subject")
                 }));
-                let threadUtil = cE({type: "div", attr: [["class", "threadUtil"]]});
-                let replybutton = cE({
-                    type: "span",
-                    attr: [["class", "replyToThis"], ["pid", pid]],
-                    innerText: "回复"
+                threadPost.forEach(e => {
+                    let c = e[0];
+                    let id = e[1];
+                    let thread = cE({type: "div", attr: [["class", "pg-threadPost"]]});
+                    let authorName = pg.$(".authi .xw1")[id].innerHTML;
+                    let ThreadPostInfo = cE({type: "p", attr: [["class", "pg-threadPostMeta"]]});
+                    let postInfo = cE({type: "p", attr: [["class", "pg-threadPostInfo"]]});
+                    try {
+                        let avatarLevel = [...[...c][0].children[0].children].filter(i => i.tagName === "DIV").filter(i => i.classList.value === "")[0].children;
+                        let avatar = cE({
+                            type: "img",
+                            attr: [["src", avatarLevel[0].children[0].children[0].src], ["class", "pg-threadAuthorAvatar"]]
+                        });
+                        let author = cE({
+                            type: "p",
+                            innerText: authorName,
+                            attr: [["class", "pg-threadAuthorName"]]
+                        });
+                        let authorLevel = cE({
+                            type: "p",
+                            innerText: avatarLevel[1].children[0].children[0].innerHTML,
+                            attr: [["class", "pg-threadAuthorLevel"]]
+                        });
+                        let authorInfo = cE({type: "div", attr: [["class", "pg-threadAuthorInfo"]]});
+                        authorInfo.append(avatar);
+                        let UsrInfoBox = cE({type: "p", attr: [["class", "pg-threadAuthorInfo"]]});
+                        UsrInfoBox.append(author);
+                        UsrInfoBox.append(authorLevel);
+                        thread.append(authorInfo);
+                        ThreadPostInfo.append(UsrInfoBox)
+                    } catch (e) {
+                    }
+                    let threadFloor = (curPage - 1) * 15 + id + 1;
+                    let threadPostTime = pg.$(".authi em")[id].innerText;
+                    postInfo.append(cE({type: "span", innerText: "第" + threadFloor + "楼"}));
+                    postInfo.append(cE({type: "span", innerHTML: "发表于" + threadPostTime}));
+                    ThreadPostInfo.append(postInfo);
+                    thread.append(ThreadPostInfo);
+                    let pid = [...pg.$("#ct.wp>#postlist>div[id^='post_']")].map(i => i.id.substr(5))[id];
+                    thread.append(cE({
+                        type: "div",
+                        attr: [["class", "postThreadContent"]],
+                        innerHTML: e[0][0].children[1].children[1].innerHTML.replace(/src="*".+zoomfile="/ig, "src=\"") + e[0][1].innerHTML
+                    }));
+                    let threadUtil = cE({type: "div", attr: [["class", "threadUtil"]]});
+                    let replybutton = cE({
+                        type: "span",
+                        attr: [["class", "replyToThis"], ["pid", pid]],
+                        innerText: "回复"
+                    });
+                    replybutton.onclick = () => {
+                        window.location.href = (id !== "0" ? (`http://www.ditiezu.com/forum.php?mod=post&action=reply&tid=&repquote=${replybutton.getAttribute("pid")}&tid=${tid}`) : `http://www.ditiezu.com/forum.php?mod=post&action=reply&tid=${tid}`);
+                    };
+                    threadUtil.append(replybutton);
+                    if (document.body.innerHTML.includes("评分")) {
+                        let ratebutton = cE({
+                            type: "span",
+                            attr: [["class", "makeRate"], ["pid", pid], ["onclick", `showWindow('rate', 'forum.php?mod=misc&action=rate&tid=' + tid + '&pid=' + ${pid} + '', 'get', -1);`]],
+                            innerText: "评分"
+                        });
+                        threadUtil.append(ratebutton)
+                    }
+                    if (threadFloor === 1) {
+                        let star = cE({
+                            type: "span",
+                            attr: [["class", "star"], ["pid", pid], ["onclick", "document.querySelectorAll(\"#k_favorite\")[0].click();"]],
+                            innerText: "收藏"
+                        });
+                        threadUtil.append(star);
+                        let appreciate = cE({
+                            type: "span",
+                            attr: [["class", "appreciate"], ["pid", pid], ["onclick", "document.querySelectorAll(\"#recommend_add\")[0].click();"]],
+                            innerText: "赞"
+                        });
+                        threadUtil.append(appreciate);
+                        let dislike = cE({
+                            type: "span",
+                            attr: [["class", "dislike"], ["pid", pid], ["onclick", "document.querySelectorAll(\"#recommend_subtract\")[0].click();"]],
+                            innerText: "踩"
+                        });
+                        threadUtil.append(dislike)
+                    }
+                    thread.append(threadUtil);
+                    threadWrap.append(thread)
                 });
-                replybutton.onclick = () => {
-                    window.location.href = (id !== "0" ? (`http://www.ditiezu.com/forum.php?mod=post&action=reply&tid=&repquote=${replybutton.getAttribute("pid")}&tid=${tid}`) : `http://www.ditiezu.com/forum.php?mod=post&action=reply&tid=${tid}`);
-                };
-                threadUtil.append(replybutton);
-                if (document.body.innerHTML.includes("评分")) {
-                    let ratebutton = cE({
-                        type: "span",
-                        attr: [["class", "makeRate"], ["pid", pid], ["onclick", `showWindow('rate', 'forum.php?mod=misc&action=rate&tid=' + tid + '&pid=' + ${pid} + '', 'get', -1);`]],
-                        innerText: "评分"
-                    });
-                    threadUtil.append(ratebutton)
-                }
-                if (threadFloor === 1) {
-                    let star = cE({
-                        type: "span",
-                        attr: [["class", "star"], ["pid", pid], ["onclick", "document.querySelectorAll(\"#k_favorite\")[0].click();"]],
-                        innerText: "收藏"
-                    });
-                    threadUtil.append(star);
-                    let appreciate = cE({
-                        type: "span",
-                        attr: [["class", "appreciate"], ["pid", pid], ["onclick", "document.querySelectorAll(\"#recommend_add\")[0].click();"]],
-                        innerText: "赞"
-                    });
-                    threadUtil.append(appreciate);
-                    let dislike = cE({
-                        type: "span",
-                        attr: [["class", "dislike"], ["pid", pid], ["onclick", "document.querySelectorAll(\"#recommend_subtract\")[0].click();"]],
-                        innerText: "踩"
-                    });
-                    threadUtil.append(dislike)
-                }
-                thread.append(threadUtil);
-                threadWrap.append(thread)
-            });
-            contentList.append(threadWrap);
+                contentList.append(threadWrap);
 
-            try {
-                let loadPostList = (page) => {
-                    window.location.href = ("http://www.ditiezu.com/forum.php?mod=viewthread&tid=" + tid + "&page=" + page)
-                };
-                let pgsBox = cE({type: "div", attr: [["id", "pg-pgs"]]});
-                if (curPage !== 1) {
-                    let firstPage = cE({
-                        type: "span",
-                        innerText: "first_page",
-                        attr: [["class", "page mi"]]
-                    });
-                    firstPage.onclick = () => {
-                        loadPostList(1)
+                try {
+                    let loadPostList = (page) => {
+                        window.location.href = ("http://www.ditiezu.com/forum.php?mod=viewthread&tid=" + tid + "&page=" + page)
                     };
-                    pgsBox.append(firstPage);
-                    let prevPage = cE({
-                        type: "span",
-                        innerText: "chevron_left",
-                        attr: [["class", "page mi"]]
-                    });
-                    prevPage.onclick = () => {
-                        loadPostList(curPage - 1)
-                    };
-                    pgsBox.append(prevPage)
-                }
-                if (curPage - 1 >= 1) {
-                    let page = cE({type: "span", innerText: (curPage - 1), attr: [["class", "page"]]});
-                    page.onclick = () => {
-                        loadPostList(curPage - 1)
-                    };
-                    pgsBox.append(page)
-                }
-                pgsBox.append(cE({type: "span", innerText: curPage}));
-                if (curPage + 1 <= lastPage) {
+                    let pgsBox = cE({type: "div", attr: [["id", "pg-pgs"]]});
+                    if (curPage !== 1) {
+                        let firstPage = cE({
+                            type: "span",
+                            innerText: "first_page",
+                            attr: [["class", "page mi"]]
+                        });
+                        firstPage.onclick = () => {
+                            loadPostList(1)
+                        };
+                        pgsBox.append(firstPage);
+                        let prevPage = cE({
+                            type: "span",
+                            innerText: "chevron_left",
+                            attr: [["class", "page mi"]]
+                        });
+                        prevPage.onclick = () => {
+                            loadPostList(curPage - 1)
+                        };
+                        pgsBox.append(prevPage)
+                    }
+                    if (curPage - 1 >= 1) {
+                        let page = cE({type: "span", innerText: (curPage - 1), attr: [["class", "page"]]});
+                        page.onclick = () => {
+                            loadPostList(curPage - 1)
+                        };
+                        pgsBox.append(page)
+                    }
+                    pgsBox.append(cE({type: "span", innerText: curPage}));
+                    if (curPage + 1 <= lastPage) {
 
-                    let page = cE({type: "span", innerText: (curPage + 1), attr: [["class", "page"]]});
-                    page.onclick = () => {
-                        loadPostList(curPage + 1)
-                    };
-                    pgsBox.append(page)
+                        let page = cE({type: "span", innerText: (curPage + 1), attr: [["class", "page"]]});
+                        page.onclick = () => {
+                            loadPostList(curPage + 1)
+                        };
+                        pgsBox.append(page)
+                    }
+                    if (curPage !== lastPage) {
+                        let nextPage = cE({
+                            type: "span",
+                            innerText: "chevron_right",
+                            attr: [["class", "page mi"]]
+                        });
+                        nextPage.onclick = () => {
+                            loadPostList(curPage + 1)
+                        };
+                        pgsBox.append(nextPage);
+                        let lPCont = cE({type: "span", innerText: "last_page", attr: [["class", "page mi"]]});
+                        lPCont.onclick = () => {
+                            loadPostList(lastPage)
+                        };
+                        pgsBox.append(lPCont)
+                    }
+                    threadWrap.append(pgsBox)
+                } catch (e) {
+                    console.log(e);
                 }
-                if (curPage !== lastPage) {
-                    let nextPage = cE({
+                if (pg.$("#modmenu").length !== 0) {
+                    let ctrlMenuPopupToggle = cE({
                         type: "span",
-                        innerText: "chevron_right",
-                        attr: [["class", "page mi"]]
+                        attr: [["class", "mi theme-color ic-ctrl"]],
+                        innerText: "more_vert"
                     });
-                    nextPage.onclick = () => {
-                        loadPostList(curPage + 1)
+                    ctrlMenuPopupToggle.onclick = () => {
+                        // 删除主题|升降|置顶|高亮|精华|图章|图标|关闭|移动|分类|复制|合并|分割|修复|警告|屏蔽
+                        pg.select("版主操作", ["关闭窗口，取消操作", "删除主题", "升降", "置顶", "高亮", "精华", "图章", "图标", "关闭", "移动", "分类", "复制", "合并", "分割", "修复", "警告", "屏蔽"], "关闭窗口，取消操作", (res) => {
+                            if (res !== "关闭窗口取消操作") {
+                                switch (res) {
+                                    case "删除主题":
+                                        pg.$("#modmenu a")[0].click();
+                                        break;
+                                    case "升降":
+                                        pg.$("#modmenu a")[1].click();
+                                        break;
+                                    case "置顶":
+                                        pg.$("#modmenu a")[2].click();
+                                        break;
+                                    case "高亮":
+                                        pg.$("#modmenu a")[3].click();
+                                        break;
+                                    case "精华":
+                                        pg.$("#modmenu a")[4].click();
+                                        break;
+                                    case "图章":
+                                        pg.$("#modmenu a")[5].click();
+                                        break;
+                                    case "图标":
+                                        pg.$("#modmenu a")[6].click();
+                                        break;
+                                    case "关闭":
+                                        pg.$("#modmenu a")[7].click();
+                                        break;
+                                    case "移动":
+                                        pg.$("#modmenu a")[8].click();
+                                        break;
+                                    case "分类":
+                                        pg.$("#modmenu a")[9].click();
+                                        break;
+                                    case "复制":
+                                        pg.$("#modmenu a")[10].click();
+                                        break;
+                                    case "合并":
+                                        pg.$("#modmenu a")[11].click();
+                                        break;
+                                    case "分割":
+                                        pg.$("#modmenu a")[12].click();
+                                        break;
+                                    case "修复":
+                                        pg.$("#modmenu a")[13].click();
+                                        break;
+                                    case "警告":
+                                        pg.$("#modmenu a")[14].click();
+                                        break;
+                                    case "屏蔽":
+                                        pg.$("#modmenu a")[15].click();
+                                        break;
+                                }
+                            }
+                        }, "选择了相对应的操作过后，将会有另外的窗口弹出来供版主操作");
                     };
-                    pgsBox.append(nextPage);
-                    let lPCont = cE({type: "span", innerText: "last_page", attr: [["class", "page mi"]]});
-                    lPCont.onclick = () => {
-                        loadPostList(lastPage)
-                    };
-                    pgsBox.append(lPCont)
+                    contentList.append(ctrlMenuPopupToggle);
                 }
-                threadWrap.append(pgsBox)
-            } catch (e) {
-                console.log(e);
-            }
-            document.body.append(cE({
-                type: "div",
-                attr: [["id", "newReplyToggle"], ["onclick", "loadURL(\"http://www.ditiezu.com/forum.php?mod=post&action=reply&tid=" + tid + "\")"]],
-                innerText: "add"
-            }));
-            if (pg.$("#modmenu").length !== 0) {
-                let ctrlMenuPopupToggle = cE({
-                    type: "span",
-                    attr: [["class", "mi theme-color ic-ctrl"]],
-                    innerText: "more_vert"
+
+                let editor = cE({
+                    type: "div",
+                    attr: [["class", "simpleReplyBox"]],
+                    innerHTML: `<p class="pg-reTitle">RE: ${pg.$("#thread_subject")[0].innerHTML}</p><div class="simpleEditor"><div class="toolBar"><div class="leftbar"><span class="mi">format_bold</span><span class="mi">format_strikethrough</span><span class="mi">text_fieldscolor_lens</span><span class="mi">color_lens</span><span class="mi">insert_photo</span><span class="mi">insert_link</span><span class="mi">insert_emoticon</span></div><div class="rightbar" onclick="window.location.href='http://www.ditiezu.com/forum.php?mod=post&action=reply&tid=${tid}'">高级编辑框</div></div><textarea name="simpleEditor" id="simpleEditor"></textarea><button class="button post" onclick="document.querySelector('#fastpostmessage').value=document.querySelector('#simpleEditor').value;document.querySelector('#fastpostsubmit').click();">回复</button></div>`
                 });
-                ctrlMenuPopupToggle.onclick = () => {
-                    // 删除主题|升降|置顶|高亮|精华|图章|图标|关闭|移动|分类|复制|合并|分割|修复|警告|屏蔽
-                    pg.select("版主操作", ["关闭窗口，取消操作", "删除主题", "升降", "置顶", "高亮", "精华", "图章", "图标", "关闭", "移动", "分类", "复制", "合并", "分割", "修复", "警告", "屏蔽"], "关闭窗口，取消操作", (res) => {
-                        if (res !== "关闭窗口取消操作") {
-                            switch (res) {
-                                case "删除主题":
-                                    pg.$("#modmenu a")[0].click();
-                                    break;
-                                case "升降":
-                                    pg.$("#modmenu a")[1].click();
-                                    break;
-                                case "置顶":
-                                    pg.$("#modmenu a")[2].click();
-                                    break;
-                                case "高亮":
-                                    pg.$("#modmenu a")[3].click();
-                                    break;
-                                case "精华":
-                                    pg.$("#modmenu a")[4].click();
-                                    break;
-                                case "图章":
-                                    pg.$("#modmenu a")[5].click();
-                                    break;
-                                case "图标":
-                                    pg.$("#modmenu a")[6].click();
-                                    break;
-                                case "关闭":
-                                    pg.$("#modmenu a")[7].click();
-                                    break;
-                                case "移动":
-                                    pg.$("#modmenu a")[8].click();
-                                    break;
-                                case "分类":
-                                    pg.$("#modmenu a")[9].click();
-                                    break;
-                                case "复制":
-                                    pg.$("#modmenu a")[10].click();
-                                    break;
-                                case "合并":
-                                    pg.$("#modmenu a")[11].click();
-                                    break;
-                                case "分割":
-                                    pg.$("#modmenu a")[12].click();
-                                    break;
-                                case "修复":
-                                    pg.$("#modmenu a")[13].click();
-                                    break;
-                                case "警告":
-                                    pg.$("#modmenu a")[14].click();
-                                    break;
-                                case "屏蔽":
-                                    pg.$("#modmenu a")[15].click();
-                                    break;
+                contentList.appendChild(editor);
+
+                let tools = editor.children[1].children[0].children[0].children;
+                let editorBox = editor.children[1].children[1];
+                tools[0].onclick = () => {
+                    insertTag(`b`, "", undefined, editorBox);
+                }
+                tools[1].onclick = () => {
+                    insertTag(`s`, "", undefined, editorBox);
+                }
+                tools[2].onclick = () => {
+                    let selStart = editorBox.selectionStart, selEnd = editorBox.selectionEnd;
+                    WindowManager.create((view, colorId) => {
+                        colorUtils.getColor(view, "#000", null, (color) => {
+                            WindowManager.remove(colorId);
+                            editorBox.focus();
+                            editorBox.setSelectionRange(selStart, selEnd);
+                            insertTag(`color`, `=${color}`, undefined, editorBox);
+                        });
+                    }, {
+                        size: "small", title: "选择字体颜色", withFooter: {
+                            with: false
+                        }
+                    });
+                }
+                tools[3].onclick = () => {
+                    let selStart = editorBox.selectionStart, selEnd = editorBox.selectionEnd;
+                    WindowManager.create((view, colorId) => {
+                        colorUtils.getColor(view, "#000", null, (color) => {
+                            WindowManager.remove(colorId);
+                            editorBox.focus();
+                            editorBox.setSelectionRange(selStart, selEnd);
+                            insertTag(`backcolor`, `=${color}`, undefined, editorBox);
+                        });
+                    }, {
+                        size: "small", title: "选择背景颜色", withFooter: {
+                            with: false
+                        }
+                    });
+                }
+                tools[4].onclick = () => {
+                    let selStart = editorBox.selectionStart, selEnd = editorBox.selectionEnd;
+                    WindowManager.create((view) => {
+                        view.appendChild(cE({
+                            type: "p",
+                            attr: [["style", "text-align:center;font:14px/21px Anodina,sans-serif;color:var(--dark);display:inline-block;width:100px;"]],
+                            innerText: "图片地址"
+                        }));
+                        view.appendChild(cE({
+                            type: 'input',
+                            attr: [["type", "url"], ["style", "display:inline-block;width:calc(100% - 200px);"], ["placeholder", "http://www.ditiezu.com/"], ["id", "urlInput"], ["oninput", "document.querySelector('#resultImage').src=this.value"]]
+                        }));
+                        let resultImage = cE({
+                            type: "img",
+                            attr: [["style", "display:block;width:80%;margin:0 auto;margin-top:16px;"], ["src", ""], ["alt", "insertImage"], ["id", "resultImage"], ["onerror", "this.src=`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Cpath d='M275 175V58c0-9-7-17-17-17H142c-10 0-17 8-17 17v117c0 9 7 16 17 16h116c10 0 17-7 17-16zm-104-46l21 25 29-38 37 50H142l29-37z' fill='%239fa0a0'/%3E%3Ctext transform='translate(65 240)'%3E%3Ctspan x='0' y='0' font-size='18' font-family='sans-serif'%3E无法获取所输入的链接对应的图片%3C/tspan%3E%3Ctspan x='8.5' y='14.4' font-size='12' font-family='Anodina'%3EUnable to get the image with the url entered%3C/tspan%3E%3C/text%3E%3C/svg%3E`"]]
+                        });
+                        view.appendChild(resultImage);
+                    }, {
+                        size: "small", title: "插入图片", withFooter: {
+                            with: true, onSubmit: () => {
+                                editorBox.focus();
+                                editorBox.setSelectionRange(selStart, selEnd);
+                                insertTag(`img`, ``, pg.$('#urlInput')[0].value, editorBox);
+                            }, onCancel: () => {
                             }
                         }
-                    }, "选择了相对应的操作过后，将会有另外的窗口弹出来供版主操作");
-                };
-                contentList.append(ctrlMenuPopupToggle);
-            }
-
-            let editor = cE({
-                type: "div",
-                attr: [["class", "simpleReplyBox"]],
-                innerHTML: `<p class="pg-reTitle">RE: ${pg.$("#thread_subject")[0].innerHTML}</p><div class="simpleEditor"><div class="toolBar"><div class="leftbar"><span class="mi">format_bold</span><span class="mi">format_strikethrough</span><span class="mi">text_fieldscolor_lens</span><span class="mi">color_lens</span><span class="mi">insert_photo</span><span class="mi">insert_link</span><span class="mi">insert_emoticon</span></div><div class="rightbar" onclick="window.location.href='http://www.ditiezu.com/forum.php?mod=post&action=reply&tid=${tid}'">高级编辑框</div></div><textarea name="simpleEditor" id="simpleEditor"></textarea><button class="button post" onclick="document.querySelector('#fastpostmessage').value=document.querySelector('#simpleEditor').value;document.querySelector('#fastpostsubmit').click();">回复</button></div>`
-            });
-            contentList.appendChild(editor);
-
-            let tools = editor.children[1].children[0].children[0].children;
-            const editorBox = editor.children[1].children[1];
-            tools[0].onclick = () => {
-                insertTag(`b`, "", undefined, editorBox);
-            }
-            tools[1].onclick = () => {
-                insertTag(`s`, "", undefined, editorBox);
-            }
-            tools[2].onclick = () => {
-                const selStart = editorBox.selectionStart, selEnd = editorBox.selectionEnd;
-                WindowManager.create((view, colorId) => {
-                    colorUtils.getColor(view, "#000", null, (color) => {
-                        WindowManager.remove(colorId);
-                        editorBox.focus();
-                        editorBox.setSelectionRange(selStart, selEnd);
-                        insertTag(`color`, `=${color}`, undefined, editorBox);
                     });
-                }, {
-                    size: "small", title: "选择字体颜色", withFooter: {
-                        with: false
-                    }
-                });
-            }
-            tools[3].onclick = () => {
-                const selStart = editorBox.selectionStart, selEnd = editorBox.selectionEnd;
-                WindowManager.create((view, colorId) => {
-                    colorUtils.getColor(view, "#000", null, (color) => {
-                        WindowManager.remove(colorId);
-                        editorBox.focus();
-                        editorBox.setSelectionRange(selStart, selEnd);
-                        insertTag(`backcolor`, `=${color}`, undefined, editorBox);
-                    });
-                }, {
-                    size: "small", title: "选择背景颜色", withFooter: {
-                        with: false
-                    }
-                });
-            }
-            tools[4].onclick = () => {
-                const selStart = editorBox.selectionStart, selEnd = editorBox.selectionEnd;
-                WindowManager.create((view) => {
-                    view.appendChild(cE({
-                        type: "p",
-                        attr: [["style", "text-align:center;font:14px/21px Anodina,sans-serif;color:var(--dark);display:inline-block;width:100px;"]],
-                        innerText: "图片地址"
-                    }));
-                    view.appendChild(cE({
-                        type: 'input',
-                        attr: [["type", "url"], ["style", "display:inline-block;width:calc(100% - 200px);"], ["placeholder", "http://www.ditiezu.com/"], ["id", "urlInput"], ["oninput", "document.querySelector('#resultImage').src=this.value"]]
-                    }));
-                    let resultImage = cE({
-                        type: "img",
-                        attr: [["style", "display:block;width:80%;margin:0 auto;margin-top:16px;"], ["src", ""], ["alt", "insertImage"], ["id", "resultImage"], ["onerror", "this.src=`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Cpath d='M275 175V58c0-9-7-17-17-17H142c-10 0-17 8-17 17v117c0 9 7 16 17 16h116c10 0 17-7 17-16zm-104-46l21 25 29-38 37 50H142l29-37z' fill='%239fa0a0'/%3E%3Ctext transform='translate(65 240)'%3E%3Ctspan x='0' y='0' font-size='18' font-family='sans-serif'%3E无法获取所输入的链接对应的图片%3C/tspan%3E%3Ctspan x='8.5' y='14.4' font-size='12' font-family='Anodina'%3EUnable to get the image with the url entered%3C/tspan%3E%3C/text%3E%3C/svg%3E`"]]
-                    });
-                    view.appendChild(resultImage);
-                }, {
-                    size: "small", title: "插入图片", withFooter: {
-                        with: true, onSubmit: () => {
-                            editorBox.focus();
-                            editorBox.setSelectionRange(selStart, selEnd);
-                            insertTag(`img`, ``, pg.$('#urlInput')[0].value, editorBox);
-                        }, onCancel: () => {
+                }
+                tools[5].onclick = () => {
+                    let selStart = editorBox.selectionStart, selEnd = editorBox.selectionEnd;
+                    WindowManager.create((view) => {
+                        view.appendChild(cE({
+                            type: "p",
+                            attr: [["style", "text-align:center;font:14px/21px Anodina,sans-serif;color:var(--dark);display:inline-block;width:100px;"]],
+                            innerText: "链接地址"
+                        }));
+                        view.appendChild(cE({
+                            type: 'input',
+                            attr: [["type", "url"], ["style", "display:inline-block;width:calc(100% - 200px);"], ["placeholder", "http://www.ditiezu.com/"], ["id", "urlInput"]]
+                        }));
+                    }, {
+                        size: "small", title: "插入链接", withFooter: {
+                            with: true, onSubmit: () => {
+                                editorBox.focus();
+                                editorBox.setSelectionRange(selStart, selEnd);
+                                insertTag(`url`, `=${pg.$('#urlInput')[0].value}`, undefined, editorBox);
+                            }, onCancel: () => {
+                            }
                         }
-                    }
-                });
-            }
-            tools[5].onclick = () => {
-                const selStart = editorBox.selectionStart, selEnd = editorBox.selectionEnd;
-                WindowManager.create((view) => {
-                    view.appendChild(cE({
-                        type: "p",
-                        attr: [["style", "text-align:center;font:14px/21px Anodina,sans-serif;color:var(--dark);display:inline-block;width:100px;"]],
-                        innerText: "链接地址"
-                    }));
-                    view.appendChild(cE({
-                        type: 'input',
-                        attr: [["type", "url"], ["style", "display:inline-block;width:calc(100% - 200px);"], ["placeholder", "http://www.ditiezu.com/"], ["id", "urlInput"]]
-                    }));
-                }, {
-                    size: "small", title: "插入链接", withFooter: {
-                        with: true, onSubmit: () => {
-                            editorBox.focus();
-                            editorBox.setSelectionRange(selStart, selEnd);
-                            insertTag(`url`, `=${pg.$('#urlInput')[0].value}`, undefined, editorBox);
-                        }, onCancel: () => {
-                        }
-                    }
-                });
-            }
-        })();
+                    });
+                }
+            })();
 
-        else if ($_GET['mod'] === "space" && $_GET['do'] === "notice") (() => {
-            document.documentElement.style.overflow = "hidden";
-            let contentList = cE({
-                type: "div",
-                attr: [["class", "pg-dashboard"]], innerHTML: "<div class='pg-content'></div>"
-            });
-            contentList = contentList.children[0];
-            contentList.appendChild(cE({
-                type: "div",
-                innerHTML: `<div class="typeName"><div class="typeNameValue"><span>通知 Notification</span><div class="icon"></div></div></div><div class='typeSelector'><div class="choice ${$_GET['isread'] === '1' ? '' : 'active'}" onclick="${$_GET['isread'] === '1' ? "window.location.href='/home.php?mod=space&do=notice'" : ''}">未读提醒</div><div class="choice ${$_GET['isread'] === '1' ? 'active' : ''}"  onclick="${$_GET['isread'] === '1' ? '' : "window.location.href='/home.php?mod=space&do=notice&isread=1'"}">已读提醒</div></div>`
-            }));
-            if (document.body.innerHTML.includes("暂时没有新提醒")) contentList.append(cE({
-                type: "div",
-                attr: [["class", "pg-dashboard-noNewNotification"]],
-                innerText: "暂时没有新提醒"
-            }));
-            let wrap = cE({type: "div", attr: [["id", "pg-dashboard-notification"]]});
-            [...pg.$(".nts>dl.cl")].map((i, index) => [(i.children[0].children[0].src === undefined ? i.children[0].children[0].children[0].src : i.children[0].children[0].src), i.children[1].children[1].children[0].innerHTML, i.children[2].innerHTML, index]).forEach(e => {
-                // avatarSrc - time - MainContent - index
-                let notification = cE({
+            else if ($_GET['mod'] === "space" && $_GET['do'] === "notice") (() => {
+                document.documentElement.style.overflow = "hidden";
+                let contentList = cE({
                     type: "div",
-                    attr: [["class", "pg-notification"], ["onclick", "window.location.href='" + (pg.$(".ntc_body [target='_blank']:not(.lit)")[e[3]] !== undefined ? pg.$(".ntc_body [target='_blank']:not(.lit)")[e[3]].href : "javascript:void(0)") + "'"]]
+                    attr: [["class", "pg-dashboard"]], innerHTML: "<div class='pg-content'></div>"
                 });
-                notification.append(cE({type: "img", attr: [["src", e[0]]]}));
-                let notify = cE({type: "div", attr: [["class", "main-info"]]});
-                notify.append(cE({type: "p", attr: [["class", "pg-notifyContent"]], innerHTML: e[2]}));
-                notify.append(cE({type: "p", attr: [["class", "pg-sendTime"]], innerHTML: e[1]}));
-                notification.append(notify);
-                wrap.append(notification)
-            });
-            contentList.append(wrap);
-            document.body.appendChild(contentList.parentElement);
-        })();
+                contentList = contentList.children[0];
+                contentList.appendChild(cE({
+                    type: "div",
+                    innerHTML: `<div class="typeName"><div class="typeNameValue"><span>通知 Notification</span><div class="icon"></div></div></div><div class='typeSelector'><div class="choice ${$_GET['isread'] === '1' ? '' : 'active'}" onclick="${$_GET['isread'] === '1' ? "window.location.href='/home.php?mod=space&do=notice'" : ''}">未读提醒</div><div class="choice ${$_GET['isread'] === '1' ? 'active' : ''}"  onclick="${$_GET['isread'] === '1' ? '' : "window.location.href='/home.php?mod=space&do=notice&isread=1'"}">已读提醒</div></div>`
+                }));
+                if (document.body.innerHTML.includes("暂时没有新提醒")) contentList.append(cE({
+                    type: "div",
+                    attr: [["class", "pg-dashboard-noNewNotification"]],
+                    innerText: "暂时没有新提醒"
+                }));
+                let wrap = cE({type: "div", attr: [["id", "pg-dashboard-notification"]]});
+                [...pg.$(".nts>dl.cl")].map((i, index) => [(i.children[0].children[0].src === undefined ? i.children[0].children[0].children[0].src : i.children[0].children[0].src), i.children[1].children[1].children[0].innerHTML, i.children[2].innerHTML, index]).forEach(e => {
+                    // avatarSrc - time - MainContent - index
+                    let notification = cE({
+                        type: "div",
+                        attr: [["class", "pg-notification"], ["onclick", "window.location.href='" + (pg.$(".ntc_body [target='_blank']:not(.lit)")[e[3]] !== undefined ? pg.$(".ntc_body [target='_blank']:not(.lit)")[e[3]].href : "javascript:void(0)") + "'"]]
+                    });
+                    notification.append(cE({type: "img", attr: [["src", e[0]]]}));
+                    let notify = cE({type: "div", attr: [["class", "main-info"]]});
+                    notify.append(cE({type: "p", attr: [["class", "pg-notifyContent"]], innerHTML: e[2]}));
+                    notify.append(cE({type: "p", attr: [["class", "pg-sendTime"]], innerHTML: e[1]}));
+                    notification.append(notify);
+                    wrap.append(notification)
+                });
+                contentList.append(wrap);
+                document.body.appendChild(contentList.parentElement);
+            })();
 
-        else if (pg.$("h1").length > 0 && pg.$("h1")[0].innerHTML === "Not Found" && pg.$("p")[1].innerHTML === "Additionally, a 404 Not Found\n" +
-            "error was encountered while trying to use an ErrorDocument to handle the request.") {
-            let contentList = cE({
-                type: "div",
-                attr: [["class", "pg-dashboard"]],
-                innerHTML: `<div class='container'><img src='${extUrl}/images/PageNotFound.svg' alt='PageNotFound' style="display:block;margin:0 auto;width:50%;"><p style="text-align:center;font:900 24px/2 Anodina,sans-serif;color:var(--dark);">HTTP 404 File Not Found</p><p style="width:768px;margin:0 auto;font:20px/40px Anodina,sans-serif;color:var(--exdark);">${pg.$("p")[0].innerText}</p><p style="width:768px;margin:0 auto;font:18px/36px Anodina,sans-serif;color:var(--dark);">${pg.$("p")[1].innerText}</p><hr><address style="width:768px;margin:0 auto;font:18px/36px Anodina,sans-serif;color:var(--grey);">${pg.$("address")[0].innerText}</address></div>`
-            });
-            document.body.appendChild(contentList);
-        }
-    });
-})()
+            else if (pg.$("h1").length > 0 && pg.$("h1")[0].innerHTML === "Not Found" && pg.$("p")[1].innerHTML === "Additionally, a 404 Not Found\n" +
+                "error was encountered while trying to use an ErrorDocument to handle the request.") {
+                let contentList = cE({
+                    type: "div",
+                    attr: [["class", "pg-dashboard"]],
+                    innerHTML: `<div class='container'><img src='${extUrl}/images/PageNotFound.svg' alt='PageNotFound' style="display:block;margin:0 auto;width:50%;"><p style="text-align:center;font:900 24px/2 Anodina,sans-serif;color:var(--dark);">HTTP 404 File Not Found</p><p style="width:768px;margin:0 auto;font:20px/40px Anodina,sans-serif;color:var(--exdark);">${pg.$("p")[0].innerText}</p><p style="width:768px;margin:0 auto;font:18px/36px Anodina,sans-serif;color:var(--dark);">${pg.$("p")[1].innerText}</p><hr><address style="width:768px;margin:0 auto;font:18px/36px Anodina,sans-serif;color:var(--grey);">${pg.$("address")[0].innerText}</address></div>`
+                });
+                document.body.appendChild(contentList);
+            }
+        });
+    };
+    render();
+})();

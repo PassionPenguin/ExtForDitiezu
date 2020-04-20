@@ -34,13 +34,12 @@
         "activeTab",
         "tabs",
         "declarativeContent",
-        "notifications",
+        "desktopCapture",
         "webRequest",
         "webRequestBlocking",
         "webNavigation",
         "storage",
-        "http://*/*",
-        "https://*/*"
+        "<all_urls>"
     ],
     "web_accessible_resources": [
         "defaultStyle.css",
@@ -61,8 +60,20 @@
     "default_locale": "zh_CN",
     "externally_connectable": {
         "matches": [
-            "*://ditiezu.com/*","*://localhost/*"
+            "*://ditiezu.com/*",
+            "*://localhost/*"
         ]
     },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*.ditiezu.com/*"
+            ],
+            "js": [
+                "scripts/inject.js"
+            ],
+            "run_at": "document_end"
+        }
+    ],
     "manifest_version": 2
 }
