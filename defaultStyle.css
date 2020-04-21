@@ -704,7 +704,7 @@ a.y.xi2.op[onclick][href='javascript:;'] {
 }
 
 .pg-threadSubject {
-    padding: 24px 0;
+    padding: 24px 0 0 0;
 }
 
 #pg_subject {
@@ -852,6 +852,22 @@ p.pg-threadAuthorName {
     background: var(--white);
     padding: 0 48px 48px 48px;
     border-top: 3px solid var(--theme_d);
+}
+
+.pg-threadNavigation {
+    margin: 0 0 24px 0;
+    height: 24px;
+}
+
+.pg-threadNavigation * {
+    font-size: 14px;
+    vertical-align: middle;
+    line-height: 24px;
+    background: none;
+}
+
+.pg-threadNavigation a:last-child {
+    color: var(--theme_d);
 }
 
 #pg-pgs {

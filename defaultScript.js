@@ -1079,6 +1079,11 @@
                     attr: [["class", "pg-threadSubject"]],
                     innerHTML: [...pg.$("h1 :not(:last-child)")].map(i => i.outerHTML).join("").replace(/thread_subject/, "pg_subject")
                 }));
+                threadWrap.appendChild(cE({
+                    type: "div",
+                    attr: [["class", "pg-threadNavigation"]],
+                    innerHTML: pg.$("#pt .z")[0].innerHTML.replace(/<em>›<\/em>/ig, "<em class='mi'>chevron_right</em>")
+                }));
                 threadPost.forEach(e => {
                     let c = e[0];
                     let id = e[1];
