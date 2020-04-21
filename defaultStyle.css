@@ -508,14 +508,15 @@ a.y.xi2.op[onclick][href='javascript:;'] {
 }
 
 #pg-focus-topWrap, #pg-focus-otherWrap, .pg-feed {
-    width: calc(100% - 40px);
-    padding: 5px 20px !important;
+    width: 100%;
+    max-width: 768px;
+    margin: 0 auto;
+    padding: 24px 48px;
+    background: var(--white);
 }
 
 #pg-focus-topWrap {
     margin: 24px auto;
-    background: var(--white);
-    padding: 20px !important;
 }
 
 #pg-focus-topWrap h2 {
@@ -530,8 +531,6 @@ a.y.xi2.op[onclick][href='javascript:;'] {
 #pg-focus-otherWrap {
     margin-bottom: 10px;
     font-size: 13px;
-    background: var(--white);
-    padding: 20px !important;
 }
 
 .pg-focus-otherItem {
@@ -574,13 +573,16 @@ a.y.xi2.op[onclick][href='javascript:;'] {
 }
 
 #pg-indexFeeds {
-    margin-bottom: 72px;
+    width: 100%;
+    max-width: 864px;
+    margin: 0 auto 72px auto;
 }
 
 .pg-feed {
-    padding: 10px;
-    margin: 10px 0;
-    background: var(--white);
+    padding: 12px;
+    margin: 12px 0;
+    box-sizing: border-box;
+    max-width: 864px;
 }
 
 .pg-feed:hover, .pg-feed:focus, #pg-focus-topWrap:hover, #pg-focus-topWrap:focus, .pg-focus-otherItem:hover, .pg-focus-otherItem:focus {
