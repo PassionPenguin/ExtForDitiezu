@@ -67,7 +67,7 @@
     "content_scripts": [
         {
             "matches": [
-                "*://*.ditiezu.com/*"
+                "*://ditiezu.com/*"
             ],
             "js": [
                 "scripts/inject.js"

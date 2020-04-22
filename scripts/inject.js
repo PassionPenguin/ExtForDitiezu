@@ -17,14 +17,9 @@ const cE = data => {
     };
     return e;
 };
-const pg = {
-    $: (sel) => {
-        return document.querySelectorAll(sel);
-    }
-}
 document.body.appendChild(cE({
     type: "div",
-    attr: [["id", "pg-captureScreenShot"], ["class", "mi"], ["style", "position:fixed;bottom:12px;right:12px;width:48px;height:48px;border-radius:50%;z-index:1000001;background-color:var(--theme_d);color:var(--white);text-align:center;line-height:48px;cursor:pointer;user-select:none;"]],
+    attr: [["id", "captureScreenShot"], ["class", "mi"], ["style", "position:fixed;bottom:12px;right:12px;width:48px;height:48px;border-radius:50%;z-index:1000001;background-color:var(--theme_d);color:var(--white);text-align:center;line-height:48px;cursor:pointer;user-select:none;display:block;"]],
     innerText: "add_a_photo",
     onclick: () => {
         let port = chrome.extension.connect({
