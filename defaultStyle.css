@@ -117,6 +117,10 @@ input {
     outline: none;
 }
 
+table {
+    width: 100%;
+}
+
 /* Window */
 .pg-window {
     position: fixed;
