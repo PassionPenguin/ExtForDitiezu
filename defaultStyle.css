@@ -763,31 +763,16 @@ p.pg-threadAuthorName {
     padding-bottom: 20px;
 }
 
-.replyToThis:before {
-    /* Preferred icon size */
-    line-height: 1;
-    text-transform: none;
-    letter-spacing: normal;
-    word-wrap: normal;
-    white-space: nowrap;
-    direction: ltr;
-    /* Support for all WebKit browsers. */
-    -webkit-font-smoothing: antialiased;
-    /* Support for Safari and Chrome. */
-    text-rendering: optimizeLegibility;
-    /* Support for Firefox. */
-    -moz-osx-font-smoothing: grayscale;
-    /* Support for IE. */
-    font-feature-settings: 'liga';
-    display: inline-block;
+.reply:before {
     content: "reply";
-    font: 24px/1 "Material Icons";
-    vertical-align: middle;
-    margin: -3px 6px 0 0;
 }
 
 .makeRate:before {
     content: "flag";
+}
+
+.editThraed:before {
+    content: "edit";
 }
 
 .appreciate:before {
@@ -802,7 +787,7 @@ p.pg-threadAuthorName {
     content: "star";
 }
 
-.appreciate:before, .dislike:before, .makeRate:before, .star:before {
+.appreciate:before, .dislike:before, .makeRate:before, .star:before, .editThraed:before, .reply:before {
     /* Preferred icon size */
     line-height: 1;
     text-transform: none;

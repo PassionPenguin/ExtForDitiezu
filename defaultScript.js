@@ -1131,13 +1131,21 @@
                     let threadUtil = cE({type: "div", attr: [["class", "threadUtil"]]});
                     let replybutton = cE({
                         type: "span",
-                        attr: [["class", "replyToThis"], ["pid", pid]],
+                        attr: [["class", "reply"], ["pid", pid]],
                         innerText: "回复"
                     });
                     replybutton.onclick = () => {
-                        window.location.href = (id !== "0" ? (`http://www.ditiezu.com/forum.php?mod=post&action=reply&tid=&repquote=${replybutton.getAttribute("pid")}&tid=${tid}`) : `http://www.ditiezu.com/forum.php?mod=post&action=reply&tid=${tid}`);
+                        window.location.href = (id !== "0" ? (`http://www.ditiezu.com/forum.php?mod=post&action=reply&tid=&repquote=${pid}&tid=${tid}`) : `http://www.ditiezu.com/forum.php?mod=post&action=reply&tid=${tid}`);
                     };
                     threadUtil.append(replybutton);
+                    if (e[0][2].querySelectorAll(".editp").length > 0) {
+                        let ratebutton = cE({
+                            type: "span",
+                            attr: [["class", "editThraed"], ["pid", pid], ["onclick", `window.location.href='http://www.ditiezu.com/forum.php?mod=post&action=edit&tid=${tid}&pid=${pid}'`]],
+                            innerText: "编辑"
+                        });
+                        threadUtil.append(ratebutton)
+                    }
                     if (document.body.innerHTML.includes("评分")) {
                         let ratebutton = cE({
                             type: "span",
@@ -1146,6 +1154,7 @@
                         });
                         threadUtil.append(ratebutton)
                     }
+
                     if (threadFloor === 1) {
                         let star = cE({
                             type: "span",
